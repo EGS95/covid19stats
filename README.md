@@ -1,4 +1,4 @@
-## Covid19 world stats
+## covid19stats
 
 Simple web app that displays covid19 stats.
 Demo: https://covid19globalstats.now.sh
