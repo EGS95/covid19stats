@@ -20,6 +20,7 @@ import "./App.css";
 import ReactCountryFlag from "react-country-flag";
 import "./countries";
 import countryNames from "./countries";
+import CountUp from 'react-countup';
 
 const appTheme = responsiveFontSizes(
   createMuiTheme({
@@ -203,7 +204,7 @@ class App extends Component {
                     Confirmed
                   </Typography>
                   <Typography className={classes.typo} variant="h3">
-                    {worldData.confirmed}
+                  <CountUp end={worldData.confirmed}/>
                   </Typography>
                 </Box>
                 <Box
@@ -219,7 +220,7 @@ class App extends Component {
                     Deaths
                   </Typography>
                   <Typography className={classes.typo} variant="h3">
-                    {worldData.deaths}
+                    <CountUp end={worldData.deaths}/>
                   </Typography>
                 </Box>
                 <Box
@@ -235,7 +236,7 @@ class App extends Component {
                     Recovered
                   </Typography>
                   <Typography className={classes.typo} variant="h3">
-                    {worldData.recovered}
+                  <CountUp end={worldData.recovered}/>
                   </Typography>
                 </Box>
               </Box>
