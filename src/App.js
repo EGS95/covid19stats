@@ -48,9 +48,6 @@ const renderCustomizedLabel = ({
   const x = cx + radius * Math.cos(-midAngle * radian);
   const y = cy + radius * Math.sin(-midAngle * radian);
 
-  console.log(x);
-  console.log(y);
-
   return (
     <text
       x={x}
@@ -94,7 +91,6 @@ class App extends Component {
     fetch("https://covid19.mathdro.id/api/")
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         this.setState({
           worldData: {
             confirmed: data.confirmed.value,
@@ -116,12 +112,13 @@ class App extends Component {
       .then(res => res.json())
       .then(data => {
         let defaultCountry = countryNames[data.country];
-        fetch(`https://covid19.mathdro.id/api/countries/${defaultCountry}`)
+        fetch(`https://covid19.mathdro.id/api/countries/${data.country}`)
           .then(res => res.json())
           .then(data => {
             this.setState({
               country: {
-                name: defaultCountry,
+                name:
+                  defaultCountry === "United States" ? "US" : defaultCountry,
                 confirmed: data.confirmed.value,
                 deaths: data.deaths.value,
                 recovered: data.recovered.value

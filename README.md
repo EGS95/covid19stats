@@ -1,7 +1,7 @@
 ## Covid19 world stats
 
 Simple web app that displays covid19 stats.
-
+Demo: https://covid19globalstats.now.sh/
 ### Created with:
 
 - create-react-app
