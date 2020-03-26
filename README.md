@@ -1,0 +1,18 @@
+## Covid19 world stats
+
+Simple web app that displays covid19 stats.
+
+### Created with:
+
+- create-react-app
+- Material UI
+- recharts
+
+### Usage:
+
+1. `npm install`
+2. `npm start`
+ 
+
+### Data source:
+https://covid19.mathdro.id
