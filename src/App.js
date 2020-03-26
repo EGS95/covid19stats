@@ -41,13 +41,26 @@ const renderCustomizedLabel = ({
   midAngle,
   innerRadius,
   outerRadius,
+  payload,
   percent,
+  value,
   index
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  console.log(payload)
+  let pos = 0.5;
+  switch(payload.name){
+    case 'Confirmed': 
+    pos = 0.5;
+    break;
+    case 'Deaths' : pos = 0.8;
+    break;
+    case 'Recovered' : pos = 0.65;
+    break;
+    default: pos = 0.5
+  }
+  const radius = innerRadius + (outerRadius - innerRadius) * pos;
   const x = cx + radius * Math.cos(-midAngle * radian);
   const y = cy + radius * Math.sin(-midAngle * radian);
-
   return (
     <text
       x={x}
@@ -56,7 +69,7 @@ const renderCustomizedLabel = ({
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
-      {`${(percent * 100).toFixed(0)}%`}
+      {`${(percent * 100).toFixed(1)}%`}
     </text>
   );
 };
@@ -147,6 +160,7 @@ class App extends Component {
             height="100vh"
             alignItems="center"
             p={3}
+            style={{overflowX:'hidden'}}
           >
             <Typography className={classes.title} variant="h2" color="primary">
               Covid<span className={classes.number}>19</span>{" "}
@@ -291,6 +305,8 @@ class App extends Component {
                 >
                   <PieChart width={400} height={400}>
                     <Pie
+                      minAngle={3}
+                      activeIndex={0}
                       innerRadius={5}
                       data={data}
                       labelLine={false}

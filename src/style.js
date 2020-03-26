@@ -26,8 +26,10 @@ const myStyle = theme => ({
     [theme.breakpoints.down('sm')]:{
         typo:{
             fontSize:'30px'
-        }
+        },
     },
+
+
 
 })
 
