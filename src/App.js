@@ -297,7 +297,7 @@ class App extends Component {
                         <MenuItem key={index} value={country.name}>
                           <ReactCountryFlag
                             svg
-                            countryCode={country.iso2 || "CN"}
+                            countryCode={country.iso2 || ""}
                             style={{
                               fontSize: "2em",
                               lineHeight: "2em",
