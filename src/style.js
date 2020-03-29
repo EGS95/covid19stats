@@ -16,9 +16,6 @@ const myStyle = theme => ({
         fontStyle:'italic',
         fontWeight:'bold'
     },
-    worldStatsImg:{
-        width:'80%',
-    },
 
     worldIcon:{
         marginRight:'10px'

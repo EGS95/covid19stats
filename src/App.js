@@ -14,13 +14,20 @@ import {
 } from "@material-ui/core/styles";
 import { lightBlue, green, pink } from "@material-ui/core/colors";
 import { PublicRounded, FlagOutlined } from "@material-ui/icons";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from "recharts";
 import myStyle from "./style";
 import "./App.css";
 import ReactCountryFlag from "react-country-flag";
 import "./countries";
 import countryNames from "./countries";
-import CountUp from 'react-countup';
+import CountUp from "react-countup";
 
 const appTheme = responsiveFontSizes(
   createMuiTheme({
@@ -36,32 +43,35 @@ const appTheme = responsiveFontSizes(
 const colors = [lightBlue[600], pink["A400"], green["A700"]];
 const radian = Math.PI / 180;
 
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  payload,
-  percent,
-  value,
-  index
-}) => {
-  console.log(payload)
+const renderCustomizedLabel = props => {
+  console.log(props);
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    payload,
+    percent
+  } = props;
   let pos = 0.5;
-  switch(payload.name){
-    case 'Confirmed': 
-    pos = 0.5;
-    break;
-    case 'Deaths' : pos = 0.8;
-    break;
-    case 'Recovered' : pos = 0.65;
-    break;
-    default: pos = 0.5
+  switch (payload.name) {
+    case "Confirmed":
+      pos = 0.5;
+      break;
+    case "Deaths":
+      pos = 0.8;
+      break;
+    case "Recovered":
+      pos = 0.65;
+      break;
+    default:
+      pos = 0.5;
   }
   const radius = innerRadius + (outerRadius - innerRadius) * pos;
   const x = cx + radius * Math.cos(-midAngle * radian);
   const y = cy + radius * Math.sin(-midAngle * radian);
+  let fontSize = cx < 200 ? "small" : "normal";
   return (
     <text
       x={x}
@@ -69,11 +79,13 @@ const renderCustomizedLabel = ({
       fill="white"
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
+      fontSize={fontSize}
     >
       {`${(percent * 100).toFixed(1)}%`}
     </text>
   );
 };
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -158,10 +170,10 @@ class App extends Component {
             display="flex"
             flexDirection="column"
             width="100%"
-            height="100vh"
+            minHeight="100vh"
             alignItems="center"
             p={3}
-            style={{overflowX:'hidden'}}
+            style={{ overflowX: "hidden" }}
           >
             <Typography className={classes.title} variant="h2" color="primary">
               Covid<span className={classes.number}>19</span>{" "}
@@ -204,7 +216,7 @@ class App extends Component {
                     Confirmed
                   </Typography>
                   <Typography className={classes.typo} variant="h3">
-                  <CountUp end={worldData.confirmed}/>
+                    <CountUp end={worldData.confirmed} />
                   </Typography>
                 </Box>
                 <Box
@@ -220,7 +232,7 @@ class App extends Component {
                     Deaths
                   </Typography>
                   <Typography className={classes.typo} variant="h3">
-                    <CountUp end={worldData.deaths}/>
+                    <CountUp end={worldData.deaths} />
                   </Typography>
                 </Box>
                 <Box
@@ -236,7 +248,7 @@ class App extends Component {
                     Recovered
                   </Typography>
                   <Typography className={classes.typo} variant="h3">
-                  <CountUp end={worldData.recovered}/>
+                    <CountUp end={worldData.recovered} />
                   </Typography>
                 </Box>
               </Box>
@@ -303,25 +315,37 @@ class App extends Component {
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
+                  height={400}
                 >
-                  <PieChart width={400} height={400}>
-                    <Pie
-                      minAngle={3}
-                      activeIndex={0}
-                      innerRadius={5}
-                      data={data}
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={colors[index]} />
-                      ))}
-                    </Pie>
-                    <Legend iconType="circle" verticalAlign="top" />
-                    <Tooltip />
-                  </PieChart>
+                  <ResponsiveContainer>
+                    <PieChart>
+                      <Pie
+                        minAngle={3}
+                        activeIndex={0}
+                        innerRadius={5}
+                        outerRadius="95%"
+                        data={data}
+                        labelLine={false}
+                        label={renderCustomizedLabel}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {data.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={colors[index]} />
+                        ))}
+                      </Pie>
+                      <Legend
+                        verticalAlign="top"
+                        payload={data.map((item, index) => ({
+                          id: item.name,
+                          type: "circle",
+                          value: <span>{item.name} <p style={{color:colors[index],fontSize:'15px',fontWeight:'bold'}}>( {item.value} )</p></span>,
+                          color: colors[index]
+                        }))}
+                      />
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </Box>
               </Box>
             </Box>
