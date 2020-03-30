@@ -173,16 +173,17 @@ class App extends Component {
             width="100%"
             minHeight="100vh"
             alignItems="center"
+            justifyContent='center'
             p={3}
             style={{ overflowX: "hidden" }}
           >
-            {/* <img className={classes.logo} src={logo} alt=''/> */}
             <Typography className={classes.title} variant="h2" color="primary">
               Covid<span className={classes.number}>19</span>{" "}
               <span className={classes.stats}>stats</span>
             </Typography>
+            <img className={classes.logo} src={logo} alt=''/>
             <Box
-              mt={5}
+              mt={3}
               display="flex"
               flexDirection="column"
               alignItems="center"

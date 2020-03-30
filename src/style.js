@@ -1,4 +1,15 @@
 const myStyle = theme => ({
+  "@keyframes logoSpin": {
+    form: { transform: "rotate(0deg)" },
+    to: { transform: "rotate(360deg)" }
+  },
+
+  logo: {
+    animation: "$logoSpin infinite 20s linear",
+    marginTop:'20px',
+    width:'128px',
+  },
+
   number: {
     color: theme.palette.secondary.main,
     margin: 0,
@@ -12,7 +23,7 @@ const myStyle = theme => ({
   },
   title: {
     fontStyle: "italic",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
 
   worldIcon: {
@@ -21,7 +32,11 @@ const myStyle = theme => ({
   [theme.breakpoints.down("sm")]: {
     typo: {
       fontSize: "30px"
-    }
+    },
+    logo: {
+      
+      width:'64px',
+    },
   },
 
   select: {
