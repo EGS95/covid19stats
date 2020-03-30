@@ -25,9 +25,9 @@ import {
 import myStyle from "./style";
 import "./App.css";
 import ReactCountryFlag from "react-country-flag";
-import "./countries";
 import countryNames from "./countries";
 import CountUp from "react-countup";
+import logo from "./logo.svg";
 
 const appTheme = responsiveFontSizes(
   createMuiTheme({
@@ -56,9 +56,6 @@ const renderCustomizedLabel = props => {
   } = props;
   let pos = 0.5;
   switch (payload.name) {
-    case "Confirmed":
-      pos = 0.5;
-      break;
     case "Deaths":
       pos = 0.8;
       break;
@@ -94,6 +91,7 @@ class App extends Component {
       worldData: null,
       countries: null
     };
+
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -159,7 +157,10 @@ class App extends Component {
     const { country, countries, worldData } = this.state;
     if (country && countries && worldData) {
       const data = [
-        { name: "Confirmed", value: country.confirmed },
+        {
+          name: "Infected",
+          value: country.confirmed - (country.deaths + country.recovered)
+        },
         { name: "Deaths", value: country.deaths },
         { name: "Recovered", value: country.recovered }
       ];
@@ -175,6 +176,7 @@ class App extends Component {
             p={3}
             style={{ overflowX: "hidden" }}
           >
+            {/* <img className={classes.logo} src={logo} alt=''/> */}
             <Typography className={classes.title} variant="h2" color="primary">
               Covid<span className={classes.number}>19</span>{" "}
               <span className={classes.stats}>stats</span>
@@ -273,16 +275,18 @@ class App extends Component {
                 display="flex"
                 flexDirection={{ xs: "column", sm: "row" }}
                 alignItems="center"
-                justifyContent="stretch"
+                justifyContent="space-evenly"
                 width="100%"
                 mt={3}
               >
                 <Box
-                  width={{ xs: "100%", sm: "30%" }}
+                  width={{ xs: "100%", sm: "50%" }}
                   display="flex"
                   flexDirection="column"
                   alignItems="center"
+                  justifyContent="space-between"
                   mb={3}
+                  mr={3}
                 >
                   <Typography variant="h5" paragraph>
                     Choose a country:
@@ -291,6 +295,7 @@ class App extends Component {
                     variant="outlined"
                     value={country.name}
                     onChange={this.handleChange}
+                    className={classes.select}
                   >
                     {countries.map((country, index) => {
                       return (
@@ -298,22 +303,25 @@ class App extends Component {
                           <ReactCountryFlag
                             svg
                             countryCode={country.iso2 || ""}
-                            style={{
-                              fontSize: "2em",
-                              lineHeight: "2em",
-                              marginRight: "10px"
-                            }}
+                            className={classes.flag}
                           />
                           {country.name}
                         </MenuItem>
                       );
                     })}
                   </Select>
+                  <Typography
+                    paragraph
+                    align="center"
+                    variant="h4"
+                    color="textPrimary"
+                  >{`Total cases: ${country.confirmed}`}</Typography>
                 </Box>
+
                 <Box
-                  width={{ xs: "100%", sm: "70%" }}
+                  width={{ xs: "100%", sm: "50%" }}
                   display="flex"
-                  justifyContent="center"
+                  justifyContent="space-around"
                   alignItems="center"
                   height={400}
                 >
@@ -339,7 +347,20 @@ class App extends Component {
                         payload={data.map((item, index) => ({
                           id: item.name,
                           type: "circle",
-                          value: <span>{item.name} <p style={{color:colors[index],fontSize:'15px',fontWeight:'bold'}}>( {item.value} )</p></span>,
+                          value: (
+                            <span>
+                              {item.name}{" "}
+                              <p
+                                style={{
+                                  color: colors[index],
+                                  fontSize: "15px",
+                                  fontWeight: "bold"
+                                }}
+                              >
+                                ( {item.value} )
+                              </p>
+                            </span>
+                          ),
                           color: colors[index]
                         }))}
                       />
