@@ -31,6 +31,7 @@ class App extends Component {
     this.state = {
       worldData: null,
       countries: null,
+      tableData:null,
     };
   }
 
@@ -54,16 +55,20 @@ class App extends Component {
     fetch("https://corona.lmao.ninja/countries")
       .then((res) => res.json())
       .then((data) => {
+        let tableData = data.sort((a,b) => {
+          return b.cases - a.cases
+        })
         this.setState({
           countries: data,
+          tableData,
         });
       });
   }
 
   render() {
     const { classes } = this.props;
-    const { countries, worldData } = this.state;
-    if (countries && worldData) {
+    const { countries, worldData,tableData } = this.state;
+    if (countries && worldData && tableData) {
       return (
         <ThemeProvider theme={appTheme}>
           <CssBaseline />
@@ -84,7 +89,7 @@ class App extends Component {
             <img className={classes.logo} src={logo} alt="" />
             <WorldStats worldData={worldData} />
             <CountryStats countries={countries}/>
-            <TableData tableData={countries}/>
+            <TableData tableData={tableData}/>
           </Box>
         </ThemeProvider>
       );

@@ -12,9 +12,11 @@ import {
   MenuItem,
   Select,
   Typography,
+  TextField,
+  InputAdornment,
   withStyles,
 } from "@material-ui/core";
-import { TableChart } from "@material-ui/icons";
+import { TableChart, Search } from "@material-ui/icons";
 import ReactCountryFlag from "react-country-flag";
 import { lightBlue, green, pink, amber } from "@material-ui/core/colors";
 import myStyle from "./Style";
@@ -25,8 +27,25 @@ class TableData extends Component {
     this.state = {
       tableData: props.tableData,
       sort: "cases-D",
+      
     };
     this.handleSort = this.handleSort.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+
+  }
+
+  handleSearch(e){
+      let input = e.target.value.trim()
+      if(input === '') this.setState({tableData:this.props.tableData})
+      else {
+        let regex = new RegExp(`^${input}`,'gi')
+        let newTableData = this.props.tableData.filter(item => {
+          return item.country.match(regex)
+        })
+        this.setState({tableData:newTableData})
+      }
+
+      
   }
 
   handleSort(e) {
@@ -60,6 +79,7 @@ class TableData extends Component {
           alignItems="center"
           justifyContent="center"
           flexDirection="column"
+         
         >
           <Box display="flex" alignItems="center" mb={3}>
             <TableChart
@@ -84,10 +104,23 @@ class TableData extends Component {
             <MenuItem value="recovered-D">Sort by recovered desc</MenuItem>
             <MenuItem value="recovered-A">Sort by recovered asc</MenuItem>
           </Select>
+          <TextField
+          
+            placeholder="Search by country"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            variant="outlined"
+            onChange={this.handleSearch}
+          />
         </Box>
 
         <Hidden xsDown>
-          <Box width="100%">
+          <Box width="100%" mt={3}  minHeight='100vh'>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -106,11 +139,11 @@ class TableData extends Component {
                   {tableData.map((row) => (
                     <TableRow classes={{ root: classes.row }} key={row.country}>
                       <TableCell component="th" scope="row">
-                      <ReactCountryFlag
-                        svg
-                        countryCode={row.countryInfo.iso2 || ""}
-                        className={classes.flag}
-                      />
+                        <ReactCountryFlag
+                          svg
+                          countryCode={row.countryInfo.iso2 || ""}
+                          className={classes.flag}
+                        />
                         {row.country}
                       </TableCell>
                       <TableCell align="left">{row.cases}</TableCell>
@@ -141,7 +174,7 @@ class TableData extends Component {
         </Hidden>
 
         <Hidden smUp>
-          <Box width="100%">
+          <Box width="100%" mt={3}  minHeight='100vh'>
             <TableContainer className={classes.container} component={Paper}>
               <Table>
                 <TableHead>
@@ -241,10 +274,10 @@ class TableData extends Component {
                         className={classes.cell}
                       >
                         <ReactCountryFlag
-                        svg
-                        countryCode={row.countryInfo.iso2 || ""}
-                        className={classes.flag}
-                      />
+                          svg
+                          countryCode={row.countryInfo.iso2 || ""}
+                          className={classes.flag}
+                        />
                         {row.country}
                       </TableCell>
                       <TableCell

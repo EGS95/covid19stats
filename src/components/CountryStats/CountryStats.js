@@ -88,11 +88,9 @@ class CountryStats extends Component {
       .then((res) => res.json())
       .then((data) => {
         let defaultCountry = countryNames[data.country];
-        console.log(data)
         fetch(`https://corona.lmao.ninja/countries/${data.country}`)
           .then((res) => res.json())
           .then((data) => {
-            console.log(data)
             this.setState({
               country: {
                 name:
