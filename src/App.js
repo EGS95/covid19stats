@@ -55,9 +55,9 @@ class App extends Component {
     fetch("https://corona.lmao.ninja/countries")
       .then((res) => res.json())
       .then((data) => {
-        let tableData = data.slice(0) // ? fixes sorting bug : needs explanation
+        let tableData = data.slice() // ? fixes sorting bug
        tableData = tableData.sort((a, b) => {
-          return a.cases - b.cases
+          return b.cases - a.cases
         });
      
         this.setState({
