@@ -12,7 +12,7 @@ import "./App.css";
 import logo from "./logo.svg";
 import WorldStats from "./components/WorldStats/WorldStats";
 import CountryStats from "./components/CountryStats/CountryStats";
-import TableData from './components/TableData/TableData'
+import TableData from "./components/TableData/TableData";
 
 const appTheme = responsiveFontSizes(
   createMuiTheme({
@@ -31,7 +31,7 @@ class App extends Component {
     this.state = {
       worldData: null,
       countries: null,
-      tableData:null,
+      tableData: null,
     };
   }
 
@@ -44,10 +44,10 @@ class App extends Component {
             confirmed: data.cases,
             deaths: data.deaths,
             recovered: data.recovered,
-            critical:data.critical,
-            active:data.active,
-            todayDeaths:data.todayDeaths,
-            todayCases:data.todayCases
+            critical: data.critical,
+            active: data.active,
+            todayDeaths: data.todayDeaths,
+            todayCases: data.todayCases,
           },
         });
       });
@@ -55,9 +55,12 @@ class App extends Component {
     fetch("https://corona.lmao.ninja/countries")
       .then((res) => res.json())
       .then((data) => {
-        let tableData = data.sort((a,b) => {
-          return b.cases - a.cases
-        })
+        let tableData = data.slice(0) // ? fixes sorting bug : needs explanation
+       tableData = tableData.sort((a, b) => {
+          if (a.deaths > b.deaths) return -1;
+          else return 1;
+        });
+     
         this.setState({
           countries: data,
           tableData,
@@ -67,7 +70,7 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    const { countries, worldData,tableData } = this.state;
+    const { countries, worldData, tableData } = this.state;
     if (countries && worldData && tableData) {
       return (
         <ThemeProvider theme={appTheme}>
@@ -88,8 +91,8 @@ class App extends Component {
             </Typography>
             <img className={classes.logo} src={logo} alt="" />
             <WorldStats worldData={worldData} />
-            <CountryStats countries={countries}/>
-            <TableData tableData={tableData}/>
+            <CountryStats countries={countries} />
+            <TableData tableData={tableData} />
           </Box>
         </ThemeProvider>
       );
