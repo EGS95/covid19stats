@@ -16,6 +16,7 @@ const myStyle = (theme) => ({
   },
   cell: {
     padding: "10px 0",
+    width: "33%"
   },
   worldIcon: {
     marginRight: "10px",

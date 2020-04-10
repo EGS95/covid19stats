@@ -27,25 +27,21 @@ class TableData extends Component {
     this.state = {
       tableData: props.tableData,
       sort: "cases-D",
-      
     };
     this.handleSort = this.handleSort.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-
   }
 
-  handleSearch(e){
-      let input = e.target.value.trim()
-      if(input === '') this.setState({tableData:this.props.tableData})
-      else {
-        let regex = new RegExp(`^${input}`,'gi')
-        let newTableData = this.props.tableData.filter(item => {
-          return item.country.match(regex)
-        })
-        this.setState({tableData:newTableData})
-      }
-
-      
+  handleSearch(e) {
+    let input = e.target.value.trim();
+    if (input === "") this.setState({ tableData: this.props.tableData });
+    else {
+      let regex = new RegExp(`^${input}`, "gi");
+      let newTableData = this.props.tableData.filter((item) => {
+        return item.country.match(regex);
+      });
+      this.setState({ tableData: newTableData });
+    }
   }
 
   handleSort(e) {
@@ -79,7 +75,6 @@ class TableData extends Component {
           alignItems="center"
           justifyContent="center"
           flexDirection="column"
-         
         >
           <Box display="flex" alignItems="center" mb={3}>
             <TableChart
@@ -105,7 +100,6 @@ class TableData extends Component {
             <MenuItem value="recovered-A">Sort by recovered asc</MenuItem>
           </Select>
           <TextField
-          
             placeholder="Search by country"
             InputProps={{
               startAdornment: (
@@ -120,7 +114,7 @@ class TableData extends Component {
         </Box>
 
         <Hidden xsDown>
-          <Box width="100%" mt={3}  minHeight='100vh'>
+          <Box width="100%" mt={3} minHeight="100vh">
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -174,7 +168,7 @@ class TableData extends Component {
         </Hidden>
 
         <Hidden smUp>
-          <Box width="100%" mt={3}  minHeight='100vh'>
+          <Box width="100%" mt={3} minHeight="100vh">
             <TableContainer className={classes.container} component={Paper}>
               <Table>
                 <TableHead>
@@ -193,18 +187,18 @@ class TableData extends Component {
                       align="center"
                       className={classes.cell}
                     >
-                      Country
+                      Country (Confirmed)
                     </TableCell>
-                    <TableCell
+                    {/* <TableCell
                       style={{ width: "25%" }}
                       flex={1}
                       align="center"
                       className={classes.cell}
                     >
                       Confirmed
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell
-                      style={{ width: "25%", color: lightBlue[500] }}
+                      style={{ color: lightBlue[500] }}
                       flex={1}
                       align="center"
                       className={classes.cell}
@@ -212,7 +206,7 @@ class TableData extends Component {
                       Active
                     </TableCell>
                     <TableCell
-                      style={{ width: "25%", color: pink[500] }}
+                      style={{ color: pink[500] }}
                       flex={1}
                       align="center"
                       className={classes.cell}
@@ -220,7 +214,7 @@ class TableData extends Component {
                       Deaths
                     </TableCell>
                     <TableCell
-                      style={{ width: "25%", color: amber[500] }}
+                      style={{ color: amber[500] }}
                       flex={1}
                       align="center"
                       className={classes.cell}
@@ -228,7 +222,7 @@ class TableData extends Component {
                       Critical
                     </TableCell>
                     <TableCell
-                      style={{ width: "33%", color: green[500] }}
+                      style={{ color: green[500] }}
                       flex={1}
                       align="center"
                       className={classes.cell}
@@ -236,7 +230,7 @@ class TableData extends Component {
                       Recovered
                     </TableCell>
                     <TableCell
-                      style={{ width: "33%", color: lightBlue[500] }}
+                      style={{ color: lightBlue[500] }}
                       flex={1}
                       align="center"
                       className={classes.cell}
@@ -244,7 +238,7 @@ class TableData extends Component {
                       Today cases
                     </TableCell>
                     <TableCell
-                      style={{ width: "33%", color: pink[500] }}
+                      style={{ color: pink[500] }}
                       flex={1}
                       align="center"
                       className={classes.cell}
@@ -278,18 +272,18 @@ class TableData extends Component {
                           countryCode={row.countryInfo.iso2 || ""}
                           className={classes.flag}
                         />
-                        {row.country}
+                        {row.country} ({row.cases})
                       </TableCell>
-                      <TableCell
+                      {/* <TableCell
                         style={{ width: "25%" }}
                         flex={1}
                         align="center"
                         className={classes.cell}
                       >
                         {row.cases}
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell
-                        style={{ color: lightBlue[500], width: "25%" }}
+                        style={{ color: lightBlue[500] }}
                         align="center"
                         flex={1}
                         className={classes.cell}
@@ -298,7 +292,7 @@ class TableData extends Component {
                       </TableCell>
                       <TableCell
                         flex={1}
-                        style={{ color: pink[500], width: "25%" }}
+                        style={{ color: pink[500] }}
                         align="center"
                         className={classes.cell}
                       >
@@ -306,7 +300,7 @@ class TableData extends Component {
                       </TableCell>
                       <TableCell
                         flex={1}
-                        style={{ color: amber[500], width: "25%" }}
+                        style={{ color: amber[500] }}
                         align="center"
                         className={classes.cell}
                       >
@@ -314,14 +308,14 @@ class TableData extends Component {
                       </TableCell>
                       <TableCell
                         flex={1}
-                        style={{ color: green[500], width: "33%" }}
+                        style={{ color: green[500] }}
                         align="center"
                         className={classes.cell}
                       >
                         {row.recovered}
                       </TableCell>
                       <TableCell
-                        style={{ width: "33%", color: lightBlue[500] }}
+                        style={{ color: lightBlue[500] }}
                         flex={1}
                         align="center"
                         className={classes.cell}
@@ -329,7 +323,7 @@ class TableData extends Component {
                         +{row.todayCases}
                       </TableCell>
                       <TableCell
-                        style={{ width: "33%", color: pink[500] }}
+                        style={{ color: pink[500] }}
                         flex={1}
                         align="center"
                         className={classes.cell}
