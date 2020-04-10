@@ -57,8 +57,7 @@ class App extends Component {
       .then((data) => {
         let tableData = data.slice(0) // ? fixes sorting bug : needs explanation
        tableData = tableData.sort((a, b) => {
-          if (a.deaths > b.deaths) return -1;
-          else return 1;
+          return a.cases - b.cases
         });
      
         this.setState({
