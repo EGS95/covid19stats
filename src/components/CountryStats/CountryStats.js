@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Box, Typography, Select, MenuItem } from "@material-ui/core";
+import { Box, Typography, Select, MenuItem, Paper } from "@material-ui/core";
 import { FlagOutlined } from "@material-ui/icons";
 import { lightBlue, green, pink } from "@material-ui/core/colors";
 import { withStyles } from "@material-ui/core";
@@ -130,6 +130,8 @@ class CountryStats extends Component {
           display="flex"
           alignItems="center"
           flexDirection="column"
+          component={Paper}
+          py={3}
         >
           <Box display="flex" alignItems="center">
             <FlagOutlined

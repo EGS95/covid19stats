@@ -84,33 +84,42 @@ class TableData extends Component {
             />
             <Typography variant="h4">Detailed stats</Typography>
           </Box>
-          <Select
-            variant="outlined"
-            value={sort}
-            onChange={this.handleSort}
-            className={classes.select}
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-evenly"
+            flexDirection={{xs:'column',sm:'row'}}
+            
+            width="100%"
           >
-            <MenuItem value="country-A">Sort by country A-Z</MenuItem>
-            <MenuItem value="country-D">Sort by country Z-A</MenuItem>
-            <MenuItem value="cases-D">Sort by confirmed desc</MenuItem>
-            <MenuItem value="cases-A">Sort by confirmed asc</MenuItem>
-            <MenuItem value="deaths-D">Sort by deaths desc</MenuItem>
-            <MenuItem value="deaths-A">Sort by deaths asc</MenuItem>
-            <MenuItem value="recovered-D">Sort by recovered desc</MenuItem>
-            <MenuItem value="recovered-A">Sort by recovered asc</MenuItem>
-          </Select>
-          <TextField
-            placeholder="Search by country"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            variant="outlined"
-            onChange={this.handleSearch}
-          />
+            <Select
+              variant="outlined"
+              value={sort}
+              onChange={this.handleSort}
+              className={classes.select}
+            >
+              <MenuItem value="country-A">Sort by country A-Z</MenuItem>
+              <MenuItem value="country-D">Sort by country Z-A</MenuItem>
+              <MenuItem value="cases-D">Sort by confirmed desc</MenuItem>
+              <MenuItem value="cases-A">Sort by confirmed asc</MenuItem>
+              <MenuItem value="deaths-D">Sort by deaths desc</MenuItem>
+              <MenuItem value="deaths-A">Sort by deaths asc</MenuItem>
+              <MenuItem value="recovered-D">Sort by recovered desc</MenuItem>
+              <MenuItem value="recovered-A">Sort by recovered asc</MenuItem>
+            </Select>
+            <TextField
+              placeholder="Search by country"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              }}
+              variant="outlined"
+              onChange={this.handleSearch}
+            />
+          </Box>
         </Box>
 
         <Hidden xsDown>

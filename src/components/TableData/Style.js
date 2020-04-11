@@ -1,9 +1,11 @@
 const myStyle = (theme) => ({
-  select: {
-    margin: "10px 0 20px 0",
+
+
+  [theme.breakpoints.down('xs')]:{
+    select:{
+      marginBottom:'20px'
+    }
   },
-
-
 
   row: {
     "&:nth-of-type(odd)": {
