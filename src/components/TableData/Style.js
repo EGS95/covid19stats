@@ -1,10 +1,38 @@
 const myStyle = (theme) => ({
+  container: {
+    width: "100%",
+    marginTop: theme.spacing(5),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+  },
 
-
-  [theme.breakpoints.down('xs')]:{
-    select:{
-      marginBottom:'20px'
-    }
+  tableCtrl: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    width: "100%",
+  },
+  [theme.breakpoints.down("xs")]: {
+    tableCtrl: {
+      flexDirection: "column",
+    },
+    select: {
+      marginBottom: "20px",
+    },
+    mainRow: {
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    row: {
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "center",
+    },
   },
 
   row: {
@@ -18,7 +46,7 @@ const myStyle = (theme) => ({
   },
   cell: {
     padding: "10px 0",
-    width: "33%"
+    width: "33%",
   },
   worldIcon: {
     marginRight: "10px",

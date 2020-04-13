@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Box, Typography, CssBaseline } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  CssBaseline,
+  CircularProgress,
+} from "@material-ui/core";
 import {
   ThemeProvider,
   createMuiTheme,
@@ -8,8 +13,8 @@ import {
 } from "@material-ui/core/styles";
 import { lightBlue } from "@material-ui/core/colors";
 import myStyle from "./style";
-import "./App.css";
 import logo from "./logo.svg";
+import countryNames from "./countries";
 import WorldStats from "./components/WorldStats/WorldStats";
 import CountryStats from "./components/CountryStats/CountryStats";
 import TableData from "./components/TableData/TableData";
@@ -55,47 +60,70 @@ class App extends Component {
     fetch("https://corona.lmao.ninja/countries")
       .then((res) => res.json())
       .then((data) => {
-        let tableData = data.slice() // ? fixes sorting bug
-       tableData = tableData.sort((a, b) => {
-          return b.cases - a.cases
+        let countries = data.slice(); // ? fixes sorting bug
+        countries = countries.sort((a, b) => {
+          if (a.country < b.country) return -1;
+          else return 1;
         });
-     
+
+        let tableData = data.slice(); // ? fixes sorting bug
+        tableData = tableData.sort((a, b) => {
+          return b.cases - a.cases;
+        });
+
         this.setState({
-          countries: data,
+          countries,
           tableData,
         });
+      });
+
+    fetch(`https://ipinfo.io/?token=${process.env.REACT_APP_API_KEY}`)
+      .then((res) => res.json())
+      .then((data) => {
+        let defaultCountry = countryNames[data.country];
+        fetch(`https://corona.lmao.ninja/countries/${data.country}`)
+          .then((res) => res.json())
+          .then((data) => {
+            this.setState({
+              country: {
+                name: defaultCountry === "USA" ? "US" : defaultCountry,
+                confirmed: data.cases,
+                deaths: data.deaths,
+                recovered: data.recovered,
+              },
+            });
+          });
       });
   }
 
   render() {
     const { classes } = this.props;
-    const { countries, worldData, tableData } = this.state;
-    if (countries && worldData && tableData) {
+    const { countries, worldData, tableData, country } = this.state;
+    if (countries && worldData && tableData && country) {
       return (
         <ThemeProvider theme={appTheme}>
           <CssBaseline />
-          <Box
-            display="flex"
-            flexDirection="column"
-            width="100%"
-            minHeight="100vh"
-            alignItems="center"
-            justifyContent="center"
-            p={3}
-            style={{ overflowX: "hidden" }}
-          >
+          <Box className={classes.container}>
             <Typography className={classes.title} variant="h2" color="primary">
-              Covid<span className={classes.number}>19</span>{" "}
+              Covid<span className={classes.number}>19</span>
               <span className={classes.stats}>stats</span>
             </Typography>
             <img className={classes.logo} src={logo} alt="" />
             <WorldStats worldData={worldData} />
-            <CountryStats countries={countries} />
+            <CountryStats countries={countries} country={country} />
             <TableData tableData={tableData} />
           </Box>
         </ThemeProvider>
       );
-    } else return null;
+    } else
+      return (
+        <ThemeProvider theme={appTheme}>
+          <CssBaseline />
+          <Box className={classes.container}>
+            <CircularProgress size={75} />
+          </Box>
+        </ThemeProvider>
+      );
   }
 }
 

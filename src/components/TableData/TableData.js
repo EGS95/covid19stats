@@ -66,16 +66,36 @@ class TableData extends Component {
   render() {
     const { classes } = this.props;
     const { tableData, sort } = this.state;
+    const MobTableCell = (props) => {
+      const { color, head, children } = props;
+      if (head)
+        return (
+          <TableCell
+            variant="head"
+            style={{ width: "100%" }}
+            align="center"
+            className={classes.cell}
+            component="th"
+            scope="row"
+          >
+            {children}
+          </TableCell>
+        );
+      else
+        return (
+          <TableCell
+            style={{ color: color }}
+            flex={1}
+            align="center"
+            className={classes.cell}
+          >
+            {children}
+          </TableCell>
+        );
+    };
     return (
       <>
-        <Box
-          width="100%"
-          mt={5}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
-        >
+        <Box className={classes.container}>
           <Box display="flex" alignItems="center" mb={3}>
             <TableChart
               fontSize="large"
@@ -84,14 +104,7 @@ class TableData extends Component {
             />
             <Typography variant="h4">Detailed stats</Typography>
           </Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-evenly"
-            flexDirection={{xs:'column',sm:'row'}}
-            
-            width="100%"
-          >
+          <Box className={classes.tableCtrl}>
             <Select
               variant="outlined"
               value={sort}
@@ -178,167 +191,50 @@ class TableData extends Component {
 
         <Hidden smUp>
           <Box width="100%" mt={3} minHeight="100vh">
-            <TableContainer className={classes.container} component={Paper}>
+            <TableContainer component={Paper}>
               <Table>
                 <TableHead>
-                  <TableRow
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    className={classes.mainRow}
-                  >
-                    <TableCell
-                      variant="head"
-                      style={{ width: "100%" }}
-                      align="center"
-                      className={classes.cell}
-                    >
-                      Country (Confirmed)
-                    </TableCell>
-                    {/* <TableCell
-                      style={{ width: "25%" }}
-                      flex={1}
-                      align="center"
-                      className={classes.cell}
-                    >
-                      Confirmed
-                    </TableCell> */}
-                    <TableCell
-                      style={{ color: lightBlue[500] }}
-                      flex={1}
-                      align="center"
-                      className={classes.cell}
-                    >
-                      Active
-                    </TableCell>
-                    <TableCell
-                      style={{ color: pink[500] }}
-                      flex={1}
-                      align="center"
-                      className={classes.cell}
-                    >
-                      Deaths
-                    </TableCell>
-                    <TableCell
-                      style={{ color: amber[500] }}
-                      flex={1}
-                      align="center"
-                      className={classes.cell}
-                    >
-                      Critical
-                    </TableCell>
-                    <TableCell
-                      style={{ color: green[500] }}
-                      flex={1}
-                      align="center"
-                      className={classes.cell}
-                    >
-                      Recovered
-                    </TableCell>
-                    <TableCell
-                      style={{ color: lightBlue[500] }}
-                      flex={1}
-                      align="center"
-                      className={classes.cell}
-                    >
+                  <TableRow className={classes.mainRow}>
+                    <MobTableCell head>Country (Confirmed)</MobTableCell>
+                    <MobTableCell color={lightBlue[500]}>Active</MobTableCell>
+                    <MobTableCell color={pink[500]}>Deaths</MobTableCell>
+                    <MobTableCell color={amber[500]}>Critical</MobTableCell>
+                    <MobTableCell color={green[500]}>Recovered</MobTableCell>
+                    <MobTableCell color={lightBlue[500]}>
                       Today cases
-                    </TableCell>
-                    <TableCell
-                      style={{ color: pink[500] }}
-                      flex={1}
-                      align="center"
-                      className={classes.cell}
-                    >
-                      Today deaths
-                    </TableCell>
+                    </MobTableCell>
+                    <MobTableCell color={pink[500]}>Today deaths</MobTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {tableData.map((row) => (
-                    <TableRow
-                      classes={{ root: classes.row }}
-                      key={row.country}
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <TableCell
-                        style={{ width: "100%" }}
-                        align="center"
-                        variant="head"
-                        component="th"
-                        scope="row"
-                        className={classes.cell}
-                      >
+                    <TableRow classes={{ root: classes.row }} key={row.country}>
+                      <MobTableCell head>
                         <ReactCountryFlag
                           svg
                           countryCode={row.countryInfo.iso2 || ""}
                           className={classes.flag}
                         />
                         {row.country} ({row.cases})
-                      </TableCell>
-                      {/* <TableCell
-                        style={{ width: "25%" }}
-                        flex={1}
-                        align="center"
-                        className={classes.cell}
-                      >
-                        {row.cases}
-                      </TableCell> */}
-                      <TableCell
-                        style={{ color: lightBlue[500] }}
-                        align="center"
-                        flex={1}
-                        className={classes.cell}
-                      >
+                      </MobTableCell>
+                      <MobTableCell color={lightBlue[500]}>
                         {row.active}
-                      </TableCell>
-                      <TableCell
-                        flex={1}
-                        style={{ color: pink[500] }}
-                        align="center"
-                        className={classes.cell}
-                      >
+                      </MobTableCell>
+                      <MobTableCell color={pink[500]}>
                         {row.deaths}
-                      </TableCell>
-                      <TableCell
-                        flex={1}
-                        style={{ color: amber[500] }}
-                        align="center"
-                        className={classes.cell}
-                      >
+                      </MobTableCell>
+                      <MobTableCell color={amber[500]}>
                         {row.critical}
-                      </TableCell>
-                      <TableCell
-                        flex={1}
-                        style={{ color: green[500] }}
-                        align="center"
-                        className={classes.cell}
-                      >
+                      </MobTableCell>
+                      <MobTableCell color={green[500]}>
                         {row.recovered}
-                      </TableCell>
-                      <TableCell
-                        style={{ color: lightBlue[500] }}
-                        flex={1}
-                        align="center"
-                        className={classes.cell}
-                      >
+                      </MobTableCell>
+                      <MobTableCell color={lightBlue[500]}>
                         +{row.todayCases}
-                      </TableCell>
-                      <TableCell
-                        style={{ color: pink[500] }}
-                        flex={1}
-                        align="center"
-                        className={classes.cell}
-                      >
+                      </MobTableCell>
+                      <MobTableCell color={pink[500]}>
                         +{row.todayDeaths}
-                      </TableCell>
+                      </MobTableCell>
                     </TableRow>
                   ))}
                 </TableBody>

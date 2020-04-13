@@ -13,7 +13,6 @@ import {
 } from "recharts";
 import ReactCountryFlag from "react-country-flag";
 import myStyle from "./Style";
-import countryNames from "../../countries";
 
 const colors = [lightBlue[600], pink["A400"], green["A700"]];
 const radian = Math.PI / 180;
@@ -61,8 +60,8 @@ class CountryStats extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      country: null,
-      countries:props.countries
+      country: props.country,
+      countries: props.countries,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -83,38 +82,10 @@ class CountryStats extends Component {
       });
   }
 
-  componentDidMount() {
-    fetch(`https://ipinfo.io/?token=${process.env.REACT_APP_API_KEY}`)
-      .then((res) => res.json())
-      .then((data) => {
-        let defaultCountry = countryNames[data.country];
-        fetch(`https://corona.lmao.ninja/countries/${data.country}`)
-          .then((res) => res.json())
-          .then((data) => {
-            this.setState({
-              country: {
-                name:
-                  defaultCountry === "USA" ? "US" : defaultCountry,
-                confirmed: data.cases,
-                deaths: data.deaths,
-                recovered: data.recovered,
-              },
-            });
-          });
-      });
-
-      let sortedCountries = this.props.countries.sort((a,b)=> {
-        if(a.country < b.country) return -1
-        else return 1
-      })
-
-      this.setState({countries:sortedCountries})
-  }
-
   render() {
     const { classes } = this.props;
-    const { country,countries } = this.state;
-    if(country){
+    const { country, countries } = this.state;
+    if (country) {
       const data = [
         {
           name: "Infected",
@@ -124,40 +95,13 @@ class CountryStats extends Component {
         { name: "Recovered", value: country.recovered },
       ];
       return (
-        <Box
-          mt={5}
-          width="100%"
-          display="flex"
-          alignItems="center"
-          flexDirection="column"
-          component={Paper}
-          py={3}
-        >
+        <Box component={Paper} className={classes.container}>
           <Box display="flex" alignItems="center">
-            <FlagOutlined
-              fontSize="large"
-              className={classes.worldIcon}
-              color="primary"
-            />
+            <FlagOutlined className={classes.worldIcon} />
             <Typography variant="h4">Country stats</Typography>
           </Box>
-          <Box
-            display="flex"
-            flexDirection={{ xs: "column", sm: "row" }}
-            alignItems="center"
-            justifyContent="space-evenly"
-            width="100%"
-            mt={3}
-          >
-            <Box
-              width={{ xs: "100%", sm: "50%" }}
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="space-between"
-              mb={3}
-              mr={3}
-            >
+          <Box className={classes.statsWrapper}>
+            <Box className={classes.selectWrapper}>
               <Typography variant="h5" paragraph>
                 Choose a country:
               </Typography>
@@ -187,14 +131,8 @@ class CountryStats extends Component {
                 color="textPrimary"
               >{`Total cases: ${country.confirmed}`}</Typography>
             </Box>
-  
-            <Box
-              width={{ xs: "100%", sm: "50%" }}
-              display="flex"
-              justifyContent="space-around"
-              alignItems="center"
-              height={400}
-            >
+
+            <Box width={{ xs: "100%", sm: "50%" }} height={400}>
               <ResponsiveContainer>
                 <PieChart>
                   <Pie
@@ -241,13 +179,8 @@ class CountryStats extends Component {
           </Box>
         </Box>
       );
-    }
-
-    else return null;
-    
-    
+    } else return null;
   }
-  
 }
 
 export default withStyles(myStyle)(CountryStats);
