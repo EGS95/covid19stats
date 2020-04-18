@@ -67,7 +67,7 @@ class CountryStats extends Component {
   }
 
   handleChange(e) {
-    const path = `https://corona.lmao.ninja/countries/${e.target.value}`;
+    const path = `https://corona.lmao.ninja/v2/countries/${e.target.value}`;
     fetch(path)
       .then((res) => res.json())
       .then((data) => {

@@ -41,7 +41,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("https://corona.lmao.ninja/all")
+    fetch("https://corona.lmao.ninja/v2/all")
       .then((res) => res.json())
       .then((data) => {
         this.setState({
@@ -57,7 +57,7 @@ class App extends Component {
         });
       });
 
-    fetch("https://corona.lmao.ninja/countries")
+    fetch("https://corona.lmao.ninja/v2/countries")
       .then((res) => res.json())
       .then((data) => {
         let countries = data.slice(); // ? fixes sorting bug
@@ -81,7 +81,7 @@ class App extends Component {
       .then((res) => res.json())
       .then((data) => {
         let defaultCountry = countryNames[data.country];
-        fetch(`https://corona.lmao.ninja/countries/${data.country}`)
+        fetch(`https://corona.lmao.ninja/v2/countries/${data.country}`)
           .then((res) => res.json())
           .then((data) => {
             this.setState({
