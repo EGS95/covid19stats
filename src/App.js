@@ -37,6 +37,7 @@ class App extends Component {
       worldData: null,
       countries: null,
       tableData: null,
+      country: null
     };
   }
 
