@@ -1,6 +1,6 @@
 module.exports = (req,res) => {
+    const key = process.env.REACT_APP_API_KEY
     res.json({
-        name:'Elie',
-        uname:'es95'
+        key:key
     })
 }
