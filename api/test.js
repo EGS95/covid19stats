@@ -1,5 +1,5 @@
 module.exports = (req,res) => {
-    const key = process.env.REACT_APP_API_KEY
+    const key = process.env.IP_INFO
     res.json({
         key:key
     })
