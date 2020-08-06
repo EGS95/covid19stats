@@ -3,11 +3,11 @@ const Ipinfo = require('node-ipinfo')
 const ipinfo = new Ipinfo(process.env.IP_INFO)
 
 module.exports = (req,res) => {
-    const data = {
-        remote:req.connection.remoteAddress,
-        x:req.headers['x-forwarded-for'],
-        y:req.headers
-    }
-    res.send(data)
+   
+    const ip = req.headers['x-forwarded-for'];
+
+    ipinfo.lookupIp(ip).then((response) => {
+        res.send(response)
+    });
     
 }
