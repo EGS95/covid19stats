@@ -7,26 +7,29 @@ module.exports = async (req, res) => {
   const reqCountry = "";
   try {
     reqCountry = await ipinfo.lookupIp(ip)._countryCode;
+    res.send(reqCountry)
   } catch {
     reqCountry = "";
+    res.send(reqCountry)
+
   }
 
 
-  try{
-      const data = await Promise.all([
-        fetch("https://disease.sh/v3/covid-19/all?yesterday=false"),
-        fetch("https://disease.sh/v3/covid-19/countries?yesterday=false"),
-      ]);
+//   try{
+//       const data = await Promise.all([
+//         fetch("https://disease.sh/v3/covid-19/all?yesterday=false"),
+//         fetch("https://disease.sh/v3/covid-19/countries?yesterday=false"),
+//       ]);
 
-      res.json({
-        countryCode: reqCountry,
-        data,
-      });
-  }
+//       res.json({
+//         countryCode: reqCountry,
+//         data,
+//       });
+//   }
 
-  catch(err) {
-      res.json({Error:err.message})
-  }
+//   catch(err) {
+//       res.json({Error:err.message})
+//   }
 
 
 };
