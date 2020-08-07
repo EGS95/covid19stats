@@ -66,7 +66,7 @@ class App extends Component {
           worldData:data.worldData,
           countries,
           tableData,
-          country
+          country:country[0]
         })
     })
 
