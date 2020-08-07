@@ -45,7 +45,7 @@ class App extends Component {
 
     fetch('https://covid19globalstats.now.sh/api/data')
     .then(res =>  {
-      console.log('alla')
+      console.log(res)
       res.json()})
     .then(data => {
       console.log(data)
