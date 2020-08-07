@@ -46,7 +46,7 @@ class App extends Component {
     fetch('https://covid19globalstats.now.sh/api/data')
     .then(res =>  {
       console.log(res)
-      res.json()})
+     return res.json()})
     .then(data => {
       console.log(data)
       let countries = data.countryData.slice(); // ? fixes sorting bug
