@@ -84,7 +84,7 @@ class CountryStats extends Component {
       const data = [
         {
           name: "Infected",
-          value: country.confirmed - (country.deaths + country.recovered),
+          value: country.cases - (country.deaths + country.recovered),
         },
         { name: "Deaths", value: country.deaths },
         { name: "Recovered", value: country.recovered },
@@ -124,7 +124,7 @@ class CountryStats extends Component {
                 align="center"
                 variant="h4"
                 color="textPrimary"
-              >{`Total cases: ${country.confirmed}`}</Typography>
+              >{`Total cases: ${country.cases}`}</Typography>
             </Box>
 
             <Box width={{ xs: "100%", sm: "50%" }} height={400}>
