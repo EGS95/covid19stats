@@ -6,7 +6,9 @@ module.exports = async (req, res) => {
   const ip = req.headers["x-forwarded-for"];
   let reqCountry = "";
   try {
-    reqCountry = await ipinfo.lookupIp(ip)._countryCode;
+    let countryData = await ipinfo.lookupIp(ip);
+    reqCountry = countryData._countryCode
+    console.log(reqCountry)
   } catch {
     reqCountry = "";
   }
