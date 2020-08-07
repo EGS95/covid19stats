@@ -72,12 +72,7 @@ class CountryStats extends Component {
       .then((res) => res.json())
       .then((data) => {
         this.setState({
-          country: {
-            name: e.target.value,
-            confirmed: data.cases,
-            deaths: data.deaths,
-            recovered: data.recovered,
-          },
+          country: data,
         });
       });
   }
@@ -107,7 +102,7 @@ class CountryStats extends Component {
               </Typography>
               <Select
                 variant="outlined"
-                value={country.name}
+                value={country.country}
                 onChange={this.handleChange}
                 className={classes.select}
               >

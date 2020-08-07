@@ -42,84 +42,96 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("https://disease.sh/v3/covid-19/all?yesterday=false")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          worldData: {
-            confirmed: data.cases,
-            deaths: data.deaths,
-            recovered: data.recovered,
-            critical: data.critical,
-            active: data.active,
-            todayDeaths: data.todayDeaths,
-            todayCases: data.todayCases,
-          },
-        });
-      });
 
-    fetch("https://disease.sh/v3/covid-19/countries?yesterday=false")
-      .then((res) => res.json())
-      .then((data) => {
-        let countries = data.slice(); // ? fixes sorting bug
+    fetch('https://covid19globalstats.now.sh/api/data')
+    .then(res =>  {
+      console.log('alla')
+      res.json()})
+    .then(data => {
+      console.log(data)
+      let countries = data.countryData.slice(); // ? fixes sorting bug
         countries = countries.sort((a, b) => {
           if (a.country < b.country) return -1;
           else return 1;
         });
 
-        let tableData = data.slice(); // ? fixes sorting bug
+        let tableData = data.countryData.slice(); // ? fixes sorting bug
         tableData = tableData.sort((a, b) => {
           return b.cases - a.cases;
         });
-        console.log(countries)
+
+        let country = countries.filter(country => country.countryInfo.iso2 == data.countryCode)
+
         this.setState({
+          worldData:data.worldData,
           countries,
           tableData,
-        });
-      });
+          country
+        })
+    })
 
-    fetch(`https://ipinfo.io/?token=${process.env.REACT_APP_API_KEY}`)
-      .then((res) => res.json())
-      .then((data) => {
-        fetch(`https://disease.sh/v3/covid-19/countries/${data.country}`)
-          .then((res) => res.json())
-          .then((data) => {
-            this.setState({
-              country: {
-                name: data.country,
-                confirmed: data.cases,
-                deaths: data.deaths,
-                recovered: data.recovered,
-              },
-            });
-          });
-      });
+    // fetch("https://disease.sh/v3/covid-19/all?yesterday=false")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     this.setState({
+    //       worldData: {
+    //         confirmed: data.cases,
+    //         deaths: data.deaths,
+    //         recovered: data.recovered,
+    //         critical: data.critical,
+    //         active: data.active,
+    //         todayDeaths: data.todayDeaths,
+    //         todayCases: data.todayCases,
+    //       },
+    //     });
+    //   });
 
+    // fetch("https://disease.sh/v3/covid-19/countries?yesterday=false")
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     let countries = data.slice(); // ? fixes sorting bug
+    //     countries = countries.sort((a, b) => {
+    //       if (a.country < b.country) return -1;
+    //       else return 1;
+    //     });
 
+    //     let tableData = data.slice(); // ? fixes sorting bug
+    //     tableData = tableData.sort((a, b) => {
+    //       return b.cases - a.cases;
+    //     });
 
+    //     console.log(countries)
+    //     this.setState({
+    //       countries,
+    //       tableData,
+          
+    //     });
+    //   });
 
-      // fetch(`https://covid19globalstats.now.sh/api/data`)
-      // .then((res) => res.json())
-      // .then((data) => {
-      //   fetch(`https://disease.sh/v3/covid-19/countries/${data.country}`)
-      //     .then((res) => res.json())
-      //     .then((data) => {
-      //       this.setState({
-      //         country: {
-      //           name: data.countryInfo.iso2,
-      //           confirmed: data.cases,
-      //           deaths: data.deaths,
-      //           recovered: data.recovered,
-      //         },
-      //       });
-      //     });
-      // });
+    // fetch(`https://ipinfo.io/?token=${process.env.REACT_APP_API_KEY}`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     fetch(`https://disease.sh/v3/covid-19/countries/${data.country}`)
+    //       .then((res) => res.json())
+    //       .then((data) => {
+    //         this.setState({
+    //           country: {
+    //             name: data.country,
+    //             confirmed: data.cases,
+    //             deaths: data.deaths,
+    //             recovered: data.recovered,
+    //           },
+    //         });
+    //       });
+    //   });
+
 
   }
 
   render() {
     const { classes } = this.props;
     const { countries, worldData, tableData, country } = this.state;
+    console.log(this.state)
     if (countries && worldData && tableData && country) {
       return (
         <ThemeProvider theme={appTheme}>
