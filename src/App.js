@@ -42,7 +42,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("https://corona.lmao.ninja/v2/all")
+    fetch("https://disease.sh/v3/covid-19/all?yesterday=false")
       .then((res) => res.json())
       .then((data) => {
         this.setState({
@@ -58,7 +58,7 @@ class App extends Component {
         });
       });
 
-    fetch("https://corona.lmao.ninja/v2/countries")
+    fetch("https://disease.sh/v3/covid-19/countries?yesterday=false")
       .then((res) => res.json())
       .then((data) => {
         let countries = data.slice(); // ? fixes sorting bug
@@ -71,7 +71,7 @@ class App extends Component {
         tableData = tableData.sort((a, b) => {
           return b.cases - a.cases;
         });
-
+        console.log(countries)
         this.setState({
           countries,
           tableData,
@@ -81,13 +81,12 @@ class App extends Component {
     fetch(`https://ipinfo.io/?token=${process.env.REACT_APP_API_KEY}`)
       .then((res) => res.json())
       .then((data) => {
-        let defaultCountry = countryNames[data.country];
-        fetch(`https://corona.lmao.ninja/v2/countries/${data.country}`)
+        fetch(`https://disease.sh/v3/covid-19/countries/${data.country}`)
           .then((res) => res.json())
           .then((data) => {
             this.setState({
               country: {
-                name: defaultCountry === "USA" ? "US" : defaultCountry,
+                name: data.country,
                 confirmed: data.cases,
                 deaths: data.deaths,
                 recovered: data.recovered,
@@ -95,6 +94,27 @@ class App extends Component {
             });
           });
       });
+
+
+
+
+      // fetch(`https://covid19globalstats.now.sh/api/data`)
+      // .then((res) => res.json())
+      // .then((data) => {
+      //   fetch(`https://disease.sh/v3/covid-19/countries/${data.country}`)
+      //     .then((res) => res.json())
+      //     .then((data) => {
+      //       this.setState({
+      //         country: {
+      //           name: data.countryInfo.iso2,
+      //           confirmed: data.cases,
+      //           deaths: data.deaths,
+      //           recovered: data.recovered,
+      //         },
+      //       });
+      //     });
+      // });
+
   }
 
   render() {
