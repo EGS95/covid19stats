@@ -14,8 +14,8 @@ module.exports = async (req, res) => {
 
   try{
       let data = await Promise.all([
-        fetch("https://disease.sh/v3/covid-19/all?yesterday=false"),
-        fetch("https://disease.sh/v3/covid-19/countries?yesterday=false"),
+        fetch("https://disease.sh/v3/covid-19/all?yesterday=false").then(res => res.json()),
+        fetch("https://disease.sh/v3/covid-19/countries?yesterday=false").then(res => res.json()),
       ]);
 
       res.json({
