@@ -21,7 +21,7 @@ export default function WorldStats(props) {
             Confirmed
           </Typography>
           <Typography className={classes.typo} variant="h3">
-            <CountUp end={worldData.confirmed} />
+            <CountUp end={worldData.cases} />
           </Typography>
         </Box>
         <Box bgcolor="secondary.main" className={classes.tile}>
