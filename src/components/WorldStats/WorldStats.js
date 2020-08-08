@@ -8,8 +8,21 @@ import myStyle from "./Style";
 export default function WorldStats(props) {
   const classes = myStyle();
   const { worldData } = props;
+  function getLastUpdate(timestamp) {
+    let date = new Date(timestamp);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hours = date.getHours() % 12 || 0;
+    let minutes =
+      date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+    let amOrpm = date.getHours() > 11 ? "PM" : "AM";
+    let lastUpdate = `${day}/${month}/${year} at ${hours}:${minutes} ${amOrpm}`;
+    return `Last updated: ${lastUpdate}`;
+  }
   return (
     <Box className={classes.container}>
+      <Typography variant='caption'>{getLastUpdate(worldData.updated)}</Typography>
       <Box display="flex" alignItems="center">
         <PublicRounded className={classes.worldIcon} />
         <Typography variant="h4">World stats</Typography>

@@ -34,7 +34,7 @@ class TableData extends Component {
 
   handleSearch(e) {
     let input = e.target.value.trim();
-    if (input === "") this.setState({ tableData: this.props.tableData });
+    if (input === "") return this.setState({ tableData: this.props.tableData });
     else {
       let regex = new RegExp(`^${input}`, "gi");
       let newTableData = this.props.tableData.filter((item) => {

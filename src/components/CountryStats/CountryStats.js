@@ -61,25 +61,20 @@ class CountryStats extends Component {
     super(props);
     this.state = {
       country: props.country,
-      countries: props.countries,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
-    const path = `https://corona.lmao.ninja/v2/countries/${e.target.value}`;
-    fetch(path)
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          country: data,
-        });
-      });
+    const country = this.props.countries.filter(
+      (country) => country.country === e.target.value
+    )[0];
+    this.setState({ country });
   }
 
   render() {
-    const { classes } = this.props;
-    const { country, countries } = this.state;
+    const { classes, countries } = this.props;
+    const { country } = this.state;
     if (country) {
       const data = [
         {
@@ -109,11 +104,14 @@ class CountryStats extends Component {
                 {countries.map((country, index) => {
                   return (
                     <MenuItem key={index} value={country.country}>
-                      <ReactCountryFlag
-                        svg
-                        countryCode={country.countryInfo.iso2 || ""}
-                        className={classes.flag}
-                      />
+                      {country.countryInfo.iso2 && (
+                        <ReactCountryFlag
+                          svg
+                          countryCode={country.countryInfo.iso2}
+                          className={classes.flag}
+                        />
+                      )}
+
                       {country.country}
                     </MenuItem>
                   );
