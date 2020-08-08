@@ -16,4 +16,4 @@ Demo: https://covid19globalstats.now.sh
  
 
 ### Data source:
-https://covid19.mathdro.id
+https://disease.sh/v3/covid-19
