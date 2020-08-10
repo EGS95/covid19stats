@@ -25,11 +25,26 @@ module.exports = async (req, res) => {
       ).then((res) => res.json()),
     ]);
 
+    let keys = Object.keys(data[2].timeline.cases)
+        let cases = Object.values(data[2].timeline.cases)
+        let deaths = Object.values(data[2].timeline.deaths)
+        let recovered = Object.values(data[2].timeline.recovered)
+
+
+        let historicalData =keys.map((key,index) => {
+          return {
+            date:key,
+            cases:cases[index],
+            deaths:deaths[index],
+            recovered:recovered[index]
+          }
+        })
+
     res.json({
       countryCode: reqCountry,
       worldData: data[0],
       countryData: data[1],
-      historicalData:data[2]
+      historicalData
     });
   } catch (err) {
     res.json({ Error: err.message });
