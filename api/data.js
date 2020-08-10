@@ -4,7 +4,7 @@ const ipinfo = new Ipinfo(process.env.IP_INFO);
 
 module.exports = async (req, res) => {
 
-  console.log(req.body)
+  res.send(req.body)
 
   const ip = req.headers["x-forwarded-for"];
   let reqCountry = "";
