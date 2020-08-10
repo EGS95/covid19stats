@@ -10,6 +10,12 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Brush,
+  LineChart,
+  Line,
 } from "recharts";
 import ReactCountryFlag from "react-country-flag";
 import myStyle from "./Style";
@@ -61,6 +67,7 @@ class CountryStats extends Component {
     super(props);
     this.state = {
       country: props.country,
+      plotData: props.plotData,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -69,12 +76,43 @@ class CountryStats extends Component {
     const country = this.props.countries.filter(
       (country) => country.country === e.target.value
     )[0];
-    this.setState({ country });
+
+    fetch(
+      `https://covid19globalstats.now.sh/api/data?ccode=${country.countryInfo.iso2}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          plotData: data.historicalData,
+          country,
+        });
+      })
+      .catch((err) => console.log(err.message));
   }
 
   render() {
     const { classes, countries } = this.props;
-    const { country } = this.state;
+    const { country, plotData } = this.state;
+    const CustomTooltip = ({ active, payload, label }) => {
+      if (active) {
+        return (
+          <Box className={classes.tooltipContainer}>
+            <p style={{ fontWeight: "bolder" }}>{`Date: ${label}`}</p>
+            <p
+              style={{ color: payload[0].color }}
+            >{`Cases: ${payload[0].value}`}</p>
+            <p
+              style={{ color: payload[1].color }}
+            >{`Deaths : ${payload[1].value}`}</p>
+            <p
+              style={{ color: payload[2].color }}
+            >{`Recovered : ${payload[2].value}`}</p>
+          </Box>
+        );
+      }
+
+      return null;
+    };
     if (country) {
       const data = [
         {
@@ -84,6 +122,7 @@ class CountryStats extends Component {
         { name: "Deaths", value: country.deaths },
         { name: "Recovered", value: country.recovered },
       ];
+
       return (
         <Box component={Paper} className={classes.container}>
           <Box display="flex" alignItems="center">
@@ -169,6 +208,37 @@ class CountryStats extends Component {
                 </PieChart>
               </ResponsiveContainer>
             </Box>
+          </Box>
+          <Box width={"100%"} height={400}>
+            <ResponsiveContainer>
+              <LineChart
+                width={500}
+                height={300}
+                data={plotData}
+                margin={{
+                  top: 20,
+                  right: 20,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="cases"
+                  stroke="#039be5"
+                  activeDot={{ r: 8 }}
+                />
+                <Line type="monotone" dataKey="deaths" stroke="#f50057" />
+                <Line type="monotone" dataKey="recovered" stroke="#00c853" />
+
+                <Brush height={25} travellerWidth={20} />
+              </LineChart>
+            </ResponsiveContainer>
           </Box>
         </Box>
       );

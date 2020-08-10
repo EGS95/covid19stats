@@ -65,15 +65,16 @@ class App extends Component {
           worldData: data.worldData,
           countries,
           tableData,
-          country
+          country,
+          plotData: data.historicalData,
         });
       });
   }
 
   render() {
     const { classes } = this.props;
-    const { countries, worldData, tableData, country } = this.state;
-    if (countries && worldData && tableData && country) {
+    const { countries, worldData, tableData, country, plotData } = this.state;
+    if (countries && worldData && tableData && country && plotData) {
       return (
         <ThemeProvider theme={appTheme}>
           <CssBaseline />
@@ -84,7 +85,11 @@ class App extends Component {
             </Typography>
             <img className={classes.logo} src={logo} alt="" />
             <WorldStats worldData={worldData} />
-            <CountryStats countries={countries} country={country} />
+            <CountryStats
+              countries={countries}
+              country={country}
+              plotData={plotData}
+            />
             <TableData tableData={tableData} />
           </Box>
         </ThemeProvider>

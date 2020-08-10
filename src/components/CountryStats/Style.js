@@ -45,6 +45,14 @@ const myStyle = (theme) => ({
     lineHeight: "2em",
     marginRight: "10px",
   },
+  tooltipContainer: {
+    backgroundColor: "black",
+    color: "white",
+    opacity: 0.7,
+    borderRadius: "10px",
+    padding: "10px",
+    width: "200px",
+  },
 });
 
 export default myStyle;
