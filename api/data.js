@@ -4,7 +4,7 @@ const ipinfo = new Ipinfo(process.env.IP_INFO);
 
 module.exports = async (req, res) => {
   if (req.query.ccode) {
-    fetch(
+   return fetch(
       `https://disease.sh/v3/covid-19/historical/${req.query.ccode}?lastdays=all`
     )
       .then((res) => res.json())
@@ -26,7 +26,8 @@ module.exports = async (req, res) => {
         res.json({
           historicalData,
         });
-      });
+      })
+      .catch((err) => res.json({ Error: err.message }));
   }
 
   const ip = req.headers["x-forwarded-for"];
