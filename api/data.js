@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     let countryData = await ipinfo.lookupIp(ip);
     reqCountry = countryData._countryCode;
   } catch {
-    reqCountry = "";
+    reqCountry = "US";
   }
 
   try {
@@ -20,12 +20,16 @@ module.exports = async (req, res) => {
       fetch(
         "https://disease.sh/v3/covid-19/countries?yesterday=false"
       ).then((res) => res.json()),
+      fetch(
+        `https://disease.sh/v3/covid-19/historical/${reqCountry}?lastdays=all`
+      ).then((res) => res.json()),
     ]);
 
     res.json({
       countryCode: reqCountry,
-      worldData:data[0],
-      countryData:data[1]
+      worldData: data[0],
+      countryData: data[1],
+      historicalData:data[2]
     });
   } catch (err) {
     res.json({ Error: err.message });
