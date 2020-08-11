@@ -75,6 +75,7 @@ class App extends Component {
     const { classes } = this.props;
     const { countries, worldData, tableData, country, plotData } = this.state;
     if (countries && worldData && tableData && country && plotData) {
+      console.log('Done one')
       return (
         <ThemeProvider theme={appTheme}>
           <CssBaseline />

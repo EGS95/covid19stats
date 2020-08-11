@@ -162,6 +162,24 @@ class CountryStats extends Component {
                 variant="h4"
                 color="textPrimary"
               >{`Total cases: ${country.cases}`}</Typography>
+              <Typography
+                paragraph
+                align="center"
+                variant="h6"
+                color='primary'
+              >{`Today cases: ${country.todayCases}`}</Typography>
+              <Typography
+                paragraph
+                align="center"
+                variant='h6'
+                color="secondary"
+              >{`Today deaths: ${country.todayDeaths}`}</Typography>
+              <Typography
+                paragraph
+                align="center"
+                variant="h6"
+                style={{color:colors[2]}}
+              >{`Today recovered: ${country.todayRecovered}`}</Typography>
             </Box>
 
             <Box width={{ xs: "100%", sm: "50%" }} height={400}>
@@ -217,9 +235,7 @@ class CountryStats extends Component {
                 data={plotData}
                 margin={{
                   top: 20,
-                  right: 20,
-                  left: 20,
-                  bottom: 5,
+                  right:30,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
