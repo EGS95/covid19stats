@@ -86,11 +86,11 @@ class App extends Component {
             </Typography>
             <img className={classes.logo} src={logo} alt="" />
             <WorldStats worldData={worldData} />
-            {/* <CountryStats
+            <CountryStats
               countries={countries}
               country={country}
               plotData={plotData}
-            /> */}
+            />
             <TableData tableData={tableData} />
           </Box>
         </ThemeProvider>
