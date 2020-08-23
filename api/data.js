@@ -76,19 +76,19 @@ module.exports = async (req, res) => {
 
     let countryData = data[1].map(country => {
       return {
-        country:data[1].country,
+        country:country.country,
         countryInfo:{
-          iso2:data[1].countryInfo.iso2,
-          lat:data[1].countryInfo.lat,
-          long:data[1].countryInfo.long,
+          iso2:country.countryInfo.iso2,
+          lat:country.countryInfo.lat,
+          long:country.countryInfo.long,
         },
-        cases:data[1].cases,
-        deaths:data[1].deaths,
-        recovered:data[1].recovered,
-        critical:data[1].critical,
-        todayCases:data[1].todayCases,
-        todayDeaths:data[1].todayDeaths,
-        todayRecovered:data[1].todayRecovered,
+        cases:country.cases,
+        deaths:country.deaths,
+        recovered:country.recovered,
+        critical:country.critical,
+        todayCases:country.todayCases,
+        todayDeaths:country.todayDeaths,
+        todayRecovered:country.todayRecovered,
 
       }
     })
