@@ -66,10 +66,37 @@ module.exports = async (req, res) => {
       };
     });
 
+    let worldData = {
+      updated:data[0].updated,
+      cases:data[0].cases,
+      deaths:data[0].deaths,
+      recovered:data[0].recovered,
+      critical:data[0].critical,
+    }
+
+    let countryData = data[1].map(country => {
+      return {
+        country:data[1].country,
+        countryInfo:{
+          iso2:data[1].countryInfo.iso2,
+          lat:data[1].countryInfo.lat,
+          long:data[1].countryInfo.long,
+        },
+        cases:data[1].cases,
+        deaths:data[1].deaths,
+        recovered:data[1].recovered,
+        critical:data[1].critical,
+        todayCases:data[1].todayCases,
+        todayDeaths:data[1].todayDeaths,
+        todayRecovered:data[1].todayRecovered,
+
+      }
+    })
+
     res.json({
       countryCode: reqCountry,
-      worldData: data[0],
-      countryData: data[1],
+      worldData,
+      countryData,
       historicalData,
     });
   } catch (err) {
