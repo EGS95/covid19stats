@@ -6,6 +6,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
+  TablePagination,
   Hidden,
   Box,
   Paper,
@@ -27,20 +28,34 @@ class TableData extends Component {
     this.state = {
       tableData: props.tableData,
       sort: "cases-D",
+      currentPage: 0,
+      itemsPerPage: 10,
     };
     this.handleSort = this.handleSort.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleChangePage = this.handleChangePage.bind(this);
+    this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
+    this.tableTop =React.createRef();
+  }
+
+  handleChangePage(e,newPage) {
+    this.setState({currentPage:newPage})
+    this.tableTop.current.scrollIntoView()
+  }
+
+  handleChangeRowsPerPage(e) {
+   this.setState({itemsPerPage:e.target.value})
   }
 
   handleSearch(e) {
     let input = e.target.value.trim();
-    if (input === "") return this.setState({ tableData: this.props.tableData });
+    if (input === "") return this.setState({ tableData: this.props.tableData,currentPage:0 });
     else {
       let regex = new RegExp(`^${input}`, "gi");
       let newTableData = this.props.tableData.filter((item) => {
         return item.country.match(regex);
       });
-      this.setState({ tableData: newTableData });
+      this.setState({ tableData: newTableData,currentPage:0 });
     }
   }
 
@@ -60,12 +75,12 @@ class TableData extends Component {
       });
     }
 
-    this.setState({ tableData: tableData, sort: value });
+    this.setState({ tableData: tableData, sort: value,currentPage:0 });
   }
 
   render() {
     const { classes } = this.props;
-    const { tableData, sort } = this.state;
+    const { tableData, sort, currentPage, itemsPerPage } = this.state;
     const MobTableCell = (props) => {
       const { color, head, children } = props;
       if (head)
@@ -96,7 +111,7 @@ class TableData extends Component {
     return (
       <>
         <Box className={classes.container}>
-          <Box display="flex" alignItems="center" mb={3}>
+          <Box display="flex" alignItems="center" mb={3} ref={this.tableTop}>
             <TableChart
               fontSize="large"
               className={classes.worldIcon}
@@ -152,9 +167,10 @@ class TableData extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {tableData.map((row) => (
+                  {tableData.slice(itemsPerPage*currentPage,itemsPerPage*currentPage + itemsPerPage).map((row,index) => (
                     <TableRow classes={{ root: classes.row }} key={row.country}>
                       <TableCell component="th" scope="row">
+                        #{itemsPerPage*currentPage + index + 1}
                         <ReactCountryFlag
                           svg
                           countryCode={row.countryInfo.iso2 || ""}
@@ -186,6 +202,14 @@ class TableData extends Component {
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              component="div"
+              count={tableData.length}
+              page={currentPage}
+              onChangePage={this.handleChangePage}
+              rowsPerPage={itemsPerPage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
           </Box>
         </Hidden>
 
@@ -207,9 +231,10 @@ class TableData extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {tableData.map((row) => (
+                  {tableData.slice(itemsPerPage*currentPage,itemsPerPage*currentPage + itemsPerPage).map((row,index) => (
                     <TableRow classes={{ root: classes.row }} key={row.country}>
                       <MobTableCell head>
+                      #{itemsPerPage*currentPage + index + 1}
                         <ReactCountryFlag
                           svg
                           countryCode={row.countryInfo.iso2 || ""}
@@ -240,6 +265,15 @@ class TableData extends Component {
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              component="div"
+              count={tableData.length}
+              page={currentPage}
+              onChangePage={this.handleChangePage}
+              rowsPerPage={itemsPerPage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              classes={{toolbar:classes.toolbar}}
+            />
           </Box>
         </Hidden>
       </>

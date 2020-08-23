@@ -55,7 +55,15 @@ const myStyle = (theme) => ({
     fontSize: "2em",
     lineHeight: "2em",
     marginRight: "10px",
+    marginLeft:'5px'
   },
+  toolbar:{
+    display:'flex',
+    flexWrap:'wrap',
+    marginTop:'10px',
+    alignItems:'center',
+    justifyContent:'center',
+  }
 });
 
 export default myStyle;
