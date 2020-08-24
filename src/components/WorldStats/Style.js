@@ -16,7 +16,7 @@ const myStyle = makeStyles((theme) => ({
   },
   [theme.breakpoints.down("sm")]: {
     typo: {
-      fontSize: "30px",
+      fontSize: "20px",
     },
   },
 
@@ -41,12 +41,14 @@ const myStyle = makeStyles((theme) => ({
 
   [theme.breakpoints.down("xs")]: {
     tileWrapper: {
-      flexDirection: "column",
+      flexWrap:'wrap'
     },
     tile: {
       height: "150px",
       marginRight: 0,
-      borderRadius:0
+      borderRadius:0,
+      width:'50%',
+
 
     },
   },
