@@ -248,9 +248,11 @@ class CountryStats extends Component {
                   dataKey="cases"
                   stroke="#039be5"
                   activeDot={{ r: 8 }}
+                  dot={false}
+                  strokeWidth={3}
                 />
-                <Line type="monotone" dataKey="deaths" stroke="#f50057" />
-                <Line type="monotone" dataKey="recovered" stroke="#00c853" />
+                <Line type="monotone" dataKey="deaths" stroke="#f50057" dot={false} strokeWidth={3}/>
+                <Line type="monotone" dataKey="recovered" stroke="#00c853" dot={false} strokeWidth={3}/>
 
                 <Brush height={25} travellerWidth={20} />
               </LineChart>
