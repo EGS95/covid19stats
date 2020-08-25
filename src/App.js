@@ -73,40 +73,35 @@ class App extends Component {
   render() {
     const { classes } = this.props;
     const { countries, worldData, tableData, country, plotData } = this.state;
-    if (countries && worldData && tableData && country && plotData) {
-      console.log("Done one");
-      return (
-        <ThemeProvider theme={appTheme}>
-          <CssBaseline />
-          <Box className={classes.container}>
-            <Typography
-              className={classes.title}
-              component="h1"
-              variant="h2"
-              color="primary"
-            >
-              Covid<span className={classes.number}>19</span> stats
-            </Typography>
-            <img src={logo} className={classes.logo} alt="" />
-            <WorldStats worldData={worldData} />
-            <CountryStats
-              countries={countries}
-              country={country}
-              plotData={plotData}
-            />
-            <TableData tableData={tableData} />
-          </Box>
-        </ThemeProvider>
-      );
-    } else
-      return (
-        <ThemeProvider theme={appTheme}>
-          <CssBaseline />
-          <Box className={classes.container}>
+    return (
+      <ThemeProvider theme={appTheme}>
+        <CssBaseline />
+        <Box className={classes.container}>
+          {countries && worldData && tableData && country && plotData ? (
+            <>
+              <Typography
+                className={classes.title}
+                component="h1"
+                variant="h2"
+                color="primary"
+              >
+                Covid<span className={classes.number}>19</span> stats
+              </Typography>
+              <img src={logo} className={classes.logo} alt="" />
+              <WorldStats worldData={worldData} />
+              <CountryStats
+                countries={countries}
+                country={country}
+                plotData={plotData}
+              />
+              <TableData tableData={tableData} />
+            </>
+          ) : (
             <CircularProgress size={75} />
-          </Box>
-        </ThemeProvider>
-      );
+          )}
+        </Box>
+      </ThemeProvider>
+    );
   }
 }
 
