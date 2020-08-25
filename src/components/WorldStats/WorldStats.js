@@ -30,34 +30,34 @@ export default function WorldStats(props) {
 
       <Box className={classes.tileWrapper}>
         <Box bgcolor="primary.main" className={classes.tile}>
-          <Typography className={classes.typo} variant="h3" paragraph>
+          <Typography className={classes.typo} variant="h4" paragraph>
             Confirmed
           </Typography>
-          <Typography className={classes.typo} variant="h3">
+          <Typography className={classes.typo} variant="h4">
             <CountUp end={worldData.cases} />
           </Typography>
         </Box>
         <Box bgcolor="secondary.main" className={classes.tile}>
-          <Typography className={classes.typo} variant="h3" paragraph>
+          <Typography className={classes.typo} variant="h4" paragraph>
             Deaths
           </Typography>
-          <Typography className={classes.typo} variant="h3">
+          <Typography className={classes.typo} variant="h4">
             <CountUp end={worldData.deaths} />
           </Typography>
         </Box>
         <Box bgcolor={amber["A700"]} className={classes.tile}>
-          <Typography className={classes.typo} variant="h3" paragraph>
+          <Typography className={classes.typo} variant="h4" paragraph>
             Critical
           </Typography>
-          <Typography className={classes.typo} variant="h3">
+          <Typography className={classes.typo} variant="h4">
             <CountUp end={worldData.critical} />
           </Typography>
         </Box>
         <Box bgcolor={green["A700"]} className={classes.tile}>
-          <Typography className={classes.typo} variant="h3" paragraph>
+          <Typography className={classes.typo} variant="h4" paragraph>
             Recovered
           </Typography>
-          <Typography className={classes.typo} variant="h3">
+          <Typography className={classes.typo} variant="h4">
             <CountUp end={worldData.recovered} />
           </Typography>
         </Box>

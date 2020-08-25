@@ -14,11 +14,6 @@ const myStyle = makeStyles((theme) => ({
     fontSize:'35px',
     color:theme.palette.primary.main
   },
-  [theme.breakpoints.down("sm")]: {
-    typo: {
-      fontSize: "20px",
-    },
-  },
 
   tileWrapper: {
     display: "flex",
@@ -39,17 +34,25 @@ const myStyle = makeStyles((theme) => ({
     borderRadius:'5px'
   },
 
-  [theme.breakpoints.down("xs")]: {
-    tileWrapper: {
-      flexWrap:'wrap'
+  [theme.breakpoints.down("sm")]: {
+    typo: {
+      fontSize: "20px",
     },
     tile: {
       height: "150px",
-      marginRight: 0,
-      borderRadius:0,
-      width:'50%',
+    },
+  },
 
-
+  [theme.breakpoints.down("xs")]: {
+    tileWrapper: {
+      flexWrap:'wrap',
+      justifyContent:'center'
+    },
+    tile: {
+      height: "150px",
+      margin: '1%',
+      borderRadius:'5px',
+      width:'48%'
     },
   },
 }));
