@@ -60,7 +60,6 @@ module.exports = async (req, res) => {
           deaths: country.deaths,
           recovered: country.recovered,
           critical: country.critical,
-          active: country.active,
           todayCases: country.todayCases,
           todayDeaths: country.todayDeaths,
           todayRecovered: country.todayRecovered,
