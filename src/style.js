@@ -12,19 +12,12 @@ const myStyle = (theme) => ({
   },
 
   title: {
-    fontStyle: "italic",
-    fontWeight: "bold",
+     fontStyle: "italic",
+     fontWeight: "bold",
   },
 
   number: {
     color: theme.palette.secondary.main,
-  },
-
-  stats: {
-    color: "white",
-    fontStyle: "normal",
-    fontSize: "0.9em",
-    paddingLeft: theme.spacing(2),
   },
 
   "@keyframes logoSpin": {
@@ -39,9 +32,12 @@ const myStyle = (theme) => ({
     height:'128px'
   },
   [theme.breakpoints.down('sm')]:{
+    container:{
+      padding:theme.spacing(2)
+    },
     logo:{
       width:'64px',
-      height:'64px'
+      height:'64px',
     }
   }
 });

@@ -13,7 +13,7 @@ export default function WorldStats(props) {
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
-    let hours = date.getHours() % 12 || 0;
+    let hours = date.getHours() % 12 || 12;
     let minutes =
       date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
     let amOrpm = date.getHours() > 11 ? "PM" : "AM";

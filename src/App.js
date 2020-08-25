@@ -37,6 +37,7 @@ class App extends Component {
       countries: null,
       tableData: null,
       country: null,
+      plotData: null,
     };
   }
 
@@ -46,14 +47,12 @@ class App extends Component {
         return res.json();
       })
       .then((data) => {
-        let countries = data.countryData.slice(); // ? fixes sorting bug
-        countries = countries.sort((a, b) => {
+        let countries = data.countryData.slice().sort((a, b) => {
           if (a.country < b.country) return -1;
           else return 1;
         });
 
-        let tableData = data.countryData.slice(); // ? fixes sorting bug
-        tableData = tableData.sort((a, b) => {
+        let tableData = data.countryData.slice().sort((a, b) => {
           return b.cases - a.cases;
         });
 
@@ -80,9 +79,13 @@ class App extends Component {
         <ThemeProvider theme={appTheme}>
           <CssBaseline />
           <Box className={classes.container}>
-            <Typography className={classes.title} variant="h2" color="primary">
-              Covid<span className={classes.number}>19</span>
-              <span className={classes.stats}>stats</span>
+            <Typography
+              className={classes.title}
+              component="h1"
+              variant="h2"
+              color="primary"
+            >
+              Covid<span className={classes.number}>19</span> stats
             </Typography>
             <img src={logo} className={classes.logo} alt="" />
             <WorldStats worldData={worldData} />
