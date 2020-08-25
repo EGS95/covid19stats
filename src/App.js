@@ -75,7 +75,7 @@ class App extends Component {
     const { classes } = this.props;
     const { countries, worldData, tableData, country, plotData } = this.state;
     if (countries && worldData && tableData && country && plotData) {
-      console.log('Done one')
+      console.log("Done one");
       return (
         <ThemeProvider theme={appTheme}>
           <CssBaseline />
@@ -84,7 +84,7 @@ class App extends Component {
               Covid<span className={classes.number}>19</span>
               <span className={classes.stats}>stats</span>
             </Typography>
-            <img className={classes.logo} src={logo} alt="" />
+            <img src={logo} className={classes.logo} alt="" />
             <WorldStats worldData={worldData} />
             <CountryStats
               countries={countries}

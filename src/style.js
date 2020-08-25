@@ -36,10 +36,12 @@ const myStyle = (theme) => ({
     animation: "$logoSpin infinite 20s linear",
     marginTop: "20px",
     width: "128px",
+    height:'128px'
   },
   [theme.breakpoints.down('sm')]:{
     logo:{
-      width:'64px'
+      width:'64px',
+      height:'64px'
     }
   }
 });
