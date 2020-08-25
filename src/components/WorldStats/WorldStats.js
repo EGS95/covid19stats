@@ -22,7 +22,9 @@ export default function WorldStats(props) {
   }
   return (
     <Box className={classes.container}>
-      <Typography variant='caption'>{getLastUpdate(worldData.updated)}</Typography>
+      <Typography variant="caption">
+        {getLastUpdate(worldData.updated)}
+      </Typography>
       <Box display="flex" alignItems="center">
         <PublicRounded className={classes.worldIcon} />
         <Typography variant="h4">World stats</Typography>

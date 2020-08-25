@@ -12,7 +12,7 @@ const myStyle = makeStyles((theme) => ({
   worldIcon: {
     marginRight: "10px",
     fontSize:'35px',
-    color:theme.palette.primary.main
+    color:theme.palette.primary.main,
   },
 
   tileWrapper: {
@@ -46,12 +46,9 @@ const myStyle = makeStyles((theme) => ({
   [theme.breakpoints.down("xs")]: {
     tileWrapper: {
       flexWrap:'wrap',
-      justifyContent:'center'
     },
     tile: {
-      height: "150px",
       margin: '1%',
-      borderRadius:'5px',
       width:'48%'
     },
   },
