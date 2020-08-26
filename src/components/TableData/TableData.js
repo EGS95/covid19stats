@@ -49,15 +49,15 @@ class TableData extends Component {
 
   handleSearch(e) {
     let input = e.target.value.trim();
-    if (input === "")
+    if (input === "" && !e.target.value)
       return this.setState({ tableData: this.props.tableData, currentPage: 0 });
-    else {
+    else if (input !== "") {
       let regex = new RegExp(`^${input}`, "gi");
       let newTableData = this.props.tableData.filter((item) => {
         return item.country.match(regex);
       });
       this.setState({ tableData: newTableData, currentPage: 0 });
-    }
+    } else return;
   }
 
   handleSort(e) {

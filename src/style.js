@@ -5,7 +5,7 @@ const myStyle = (theme) => ({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    minHeight: "100vh",
+    height: "100vh",
     overflowX: "hidden",
     userSelect: "none",
     padding: theme.spacing(3),
