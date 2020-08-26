@@ -7,6 +7,13 @@ const myStyle = (theme) => ({
     flexDirection: "column",
     padding: "24px 0",
   },
+
+  worldIcon: {
+    marginRight: "10px",
+    fontSize: "35px",
+    color: theme.palette.primary.main,
+  },
+
   statsWrapper: {
     display: "flex",
     alignItems: "center",
@@ -14,26 +21,12 @@ const myStyle = (theme) => ({
     width: "100%",
     marginTop: theme.spacing(3),
   },
+
   selectWrapper: {
     width: "50%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between",
-    margin: "0 24px 24px 0",
-  },
-  [theme.breakpoints.down("xs")]: {
-    statsWrapper: {
-      flexDirection: "column",
-    },
-    selectWrapper: {
-      width: "100%",
-    },
-  },
-  worldIcon: {
-    marginRight: "10px",
-    fontSize: "35px",
-    color: theme.palette.primary.main,
   },
 
   select: {
@@ -42,9 +35,9 @@ const myStyle = (theme) => ({
 
   flag: {
     fontSize: "2em",
-    lineHeight: "2em",
-    marginRight: "10px",
+    margin: "0 10px 0 0",
   },
+
   tooltipContainer: {
     backgroundColor: "black",
     color: "white",
@@ -52,6 +45,15 @@ const myStyle = (theme) => ({
     borderRadius: "10px",
     padding: "10px",
     width: "200px",
+  },
+
+  [theme.breakpoints.down("xs")]: {
+    statsWrapper: {
+      flexDirection: "column",
+    },
+    selectWrapper: {
+      width: "100%",
+    },
   },
 });
 

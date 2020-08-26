@@ -53,9 +53,10 @@ const renderCustomizedLabel = (props) => {
       x={x}
       y={y}
       fill="white"
-      textAnchor={x > cx ? "start" : "end"}
+      textAnchor="middle"
       dominantBaseline="central"
       fontSize={fontSize}
+      fontWeight="bold"
     >
       {`${(percent * 100).toFixed(1)}%`}
     </text>
@@ -113,15 +114,36 @@ class CountryStats extends Component {
 
       return null;
     };
+
     if (country) {
       const data = [
         {
-          name: "Infected",
+          name: "Active",
           value: country.cases - (country.deaths + country.recovered),
         },
         { name: "Deaths", value: country.deaths },
         { name: "Recovered", value: country.recovered },
       ];
+
+      const legendData = data.map((item, index) => ({
+        id: item.name,
+        type: "circle",
+        value: (
+          <span>
+            {item.name}
+            <p
+              style={{
+                color: colors[index],
+                fontSize: "15px",
+                fontWeight: "bold",
+              }}
+            >
+              ( {item.value} )
+            </p>
+          </span>
+        ),
+        color: colors[index],
+      }));
 
       return (
         <Box component={Paper} className={classes.container}>
@@ -150,7 +172,6 @@ class CountryStats extends Component {
                           className={classes.flag}
                         />
                       )}
-
                       {country.country}
                     </MenuItem>
                   );
@@ -166,63 +187,42 @@ class CountryStats extends Component {
                 paragraph
                 align="center"
                 variant="h6"
-                color='primary'
+                color="primary"
               >{`Today cases: ${country.todayCases}`}</Typography>
               <Typography
                 paragraph
                 align="center"
-                variant='h6'
+                variant="h6"
                 color="secondary"
               >{`Today deaths: ${country.todayDeaths}`}</Typography>
               <Typography
                 paragraph
                 align="center"
                 variant="h6"
-                style={{color:colors[2]}}
+                style={{ color: colors[2] }}
               >{`Today recovered: ${country.todayRecovered}`}</Typography>
             </Box>
 
-            <Box width={{ xs: "100%", sm: "50%" }} height={400}>
+            <Box
+              width={{ xs: "100%", sm: "50%" }}
+              height={{ xs: 300, sm: 400 }}
+            >
               <ResponsiveContainer>
                 <PieChart>
                   <Pie
                     minAngle={3}
-                    activeIndex={0}
                     innerRadius={5}
                     outerRadius="95%"
                     data={data}
                     labelLine={false}
                     label={renderCustomizedLabel}
-                    fill="#8884d8"
                     dataKey="value"
                   >
                     {data.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={colors[index]} />
                     ))}
                   </Pie>
-                  <Legend
-                    verticalAlign="top"
-                    payload={data.map((item, index) => ({
-                      id: item.name,
-                      type: "circle",
-                      value: (
-                        <span>
-                          {item.name}{" "}
-                          <p
-                            style={{
-                              color: colors[index],
-                              fontSize: "15px",
-                              fontWeight: "bold",
-                            }}
-                          >
-                            ( {item.value} )
-                          </p>
-                        </span>
-                      ),
-                      color: colors[index],
-                    }))}
-                  />
-                  <Tooltip />
+                  <Legend verticalAlign="top" payload={legendData} />
                 </PieChart>
               </ResponsiveContainer>
             </Box>
@@ -235,7 +235,7 @@ class CountryStats extends Component {
                 data={plotData}
                 margin={{
                   top: 20,
-                  right:30,
+                  right: 30,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -247,12 +247,23 @@ class CountryStats extends Component {
                   type="monotone"
                   dataKey="cases"
                   stroke="#039be5"
-                  activeDot={{ r: 8 }}
                   dot={false}
                   strokeWidth={3}
                 />
-                <Line type="monotone" dataKey="deaths" stroke="#f50057" dot={false} strokeWidth={3}/>
-                <Line type="monotone" dataKey="recovered" stroke="#00c853" dot={false} strokeWidth={3}/>
+                <Line
+                  type="monotone"
+                  dataKey="deaths"
+                  stroke="#f50057"
+                  dot={false}
+                  strokeWidth={3}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="recovered"
+                  stroke="#00c853"
+                  dot={false}
+                  strokeWidth={3}
+                />
 
                 <Brush height={25} travellerWidth={20} />
               </LineChart>
