@@ -2,6 +2,22 @@ const fetch = require("node-fetch");
 const Ipinfo = require("node-ipinfo");
 const ipinfo = new Ipinfo(process.env.IP_INFO);
 
+const getHistoricalData = (data) => {
+  let keys = Object.keys(data.timeline.cases);
+  let cases = Object.values(data.timeline.cases);
+  let deaths = Object.values(data.timeline.deaths);
+  let recovered = Object.values(data.timeline.recovered);
+
+  return keys.map((key, index) => {
+    return {
+      date: key,
+      cases: cases[index],
+      deaths: deaths[index],
+      recovered: recovered[index],
+    };
+  });
+};
+
 module.exports = async (req, res) => {
   if (!req.query.ccode) {
     const ip = req.headers["x-forwarded-for"];
@@ -25,20 +41,6 @@ module.exports = async (req, res) => {
           `https://disease.sh/v3/covid-19/historical/${reqCountry}?lastdays=all`
         ).then((res) => res.json()),
       ]);
-
-      let keys = Object.keys(data[2].timeline.cases);
-      let cases = Object.values(data[2].timeline.cases);
-      let deaths = Object.values(data[2].timeline.deaths);
-      let recovered = Object.values(data[2].timeline.recovered);
-
-      let historicalData = keys.map((key, index) => {
-        return {
-          date: key,
-          cases: cases[index],
-          deaths: deaths[index],
-          recovered: recovered[index],
-        };
-      });
 
       let worldData = {
         updated: data[0].updated,
@@ -70,7 +72,7 @@ module.exports = async (req, res) => {
         countryCode: reqCountry,
         worldData,
         countryData,
-        historicalData,
+        historicalData: getHistoricalData(data[2]),
       });
     } catch (err) {
       res.json({ Error: err.message });
@@ -81,22 +83,8 @@ module.exports = async (req, res) => {
     )
       .then((res) => res.json())
       .then((data) => {
-        let keys = Object.keys(data.timeline.cases);
-        let cases = Object.values(data.timeline.cases);
-        let deaths = Object.values(data.timeline.deaths);
-        let recovered = Object.values(data.timeline.recovered);
-
-        let historicalData = keys.map((key, index) => {
-          return {
-            date: key,
-            cases: cases[index],
-            deaths: deaths[index],
-            recovered: recovered[index],
-          };
-        });
-
         res.json({
-          historicalData,
+          historicalData: getHistoricalData(data),
         });
       })
       .catch((err) => res.json({ Error: err.message }));
