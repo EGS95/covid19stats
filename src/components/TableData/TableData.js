@@ -35,27 +35,28 @@ class TableData extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleChangePage = this.handleChangePage.bind(this);
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
-    this.tableTop =React.createRef();
+    this.tableTop = React.createRef();
   }
 
-  handleChangePage(e,newPage) {
-    this.setState({currentPage:newPage})
-    this.tableTop.current.scrollIntoView()
+  handleChangePage(e, newPage) {
+    this.setState({ currentPage: newPage });
+    this.tableTop.current.scrollIntoView();
   }
 
   handleChangeRowsPerPage(e) {
-   this.setState({itemsPerPage:e.target.value})
+    this.setState({ itemsPerPage: e.target.value });
   }
 
   handleSearch(e) {
     let input = e.target.value.trim();
-    if (input === "") return this.setState({ tableData: this.props.tableData,currentPage:0 });
+    if (input === "")
+      return this.setState({ tableData: this.props.tableData, currentPage: 0 });
     else {
       let regex = new RegExp(`^${input}`, "gi");
       let newTableData = this.props.tableData.filter((item) => {
         return item.country.match(regex);
       });
-      this.setState({ tableData: newTableData,currentPage:0 });
+      this.setState({ tableData: newTableData, currentPage: 0 });
     }
   }
 
@@ -75,7 +76,7 @@ class TableData extends Component {
       });
     }
 
-    this.setState({ tableData: tableData, sort: value,currentPage:0 });
+    this.setState({ tableData: tableData, sort: value, currentPage: 0 });
   }
 
   render() {
@@ -167,38 +168,52 @@ class TableData extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {tableData.slice(itemsPerPage*currentPage,itemsPerPage*currentPage + itemsPerPage).map((row,index) => (
-                    <TableRow classes={{ root: classes.row }} key={row.country}>
-                      <TableCell component="th" scope="row">
-                        #{itemsPerPage*currentPage + index + 1}
-                        <ReactCountryFlag
-                          svg
-                          countryCode={row.countryInfo.iso2 || ""}
-                          className={classes.flag}
-                        />
-                        {row.country}
-                      </TableCell>
-                      <TableCell align="left">{row.cases}</TableCell>
-                      <TableCell style={{ color: lightBlue[500] }} align="left">
-                        {row.active}
-                      </TableCell>
-                      <TableCell style={{ color: pink[500] }} align="left">
-                        {row.deaths}
-                      </TableCell>
-                      <TableCell style={{ color: amber[500] }} align="left">
-                        {row.critical}
-                      </TableCell>
-                      <TableCell style={{ color: green[500] }} align="left">
-                        {row.recovered}
-                      </TableCell>
-                      <TableCell align="left" style={{ color: lightBlue[500] }}>
-                        +{row.todayCases}
-                      </TableCell>
-                      <TableCell align="left" style={{ color: pink[500] }}>
-                        +{row.todayDeaths}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {tableData
+                    .slice(
+                      itemsPerPage * currentPage,
+                      itemsPerPage * currentPage + itemsPerPage
+                    )
+                    .map((row, index) => (
+                      <TableRow
+                        classes={{ root: classes.row }}
+                        key={row.country}
+                      >
+                        <TableCell component="th" scope="row">
+                          #{itemsPerPage * currentPage + index + 1}
+                          <ReactCountryFlag
+                            svg
+                            countryCode={row.countryInfo.iso2 || ""}
+                            className={classes.flag}
+                          />
+                          {row.country}
+                        </TableCell>
+                        <TableCell align="left">{row.cases}</TableCell>
+                        <TableCell
+                          style={{ color: lightBlue[500] }}
+                          align="left"
+                        >
+                          {row.cases - (row.deaths + row.recovered)}
+                        </TableCell>
+                        <TableCell style={{ color: pink[500] }} align="left">
+                          {row.deaths}
+                        </TableCell>
+                        <TableCell style={{ color: amber[500] }} align="left">
+                          {row.critical}
+                        </TableCell>
+                        <TableCell style={{ color: green[500] }} align="left">
+                          {row.recovered}
+                        </TableCell>
+                        <TableCell
+                          align="left"
+                          style={{ color: lightBlue[500] }}
+                        >
+                          +{row.todayCases}
+                        </TableCell>
+                        <TableCell align="left" style={{ color: pink[500] }}>
+                          +{row.todayDeaths}
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -231,37 +246,45 @@ class TableData extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {tableData.slice(itemsPerPage*currentPage,itemsPerPage*currentPage + itemsPerPage).map((row,index) => (
-                    <TableRow classes={{ root: classes.row }} key={row.country}>
-                      <MobTableCell head>
-                      #{itemsPerPage*currentPage + index + 1}
-                        <ReactCountryFlag
-                          svg
-                          countryCode={row.countryInfo.iso2 || ""}
-                          className={classes.flag}
-                        />
-                        {row.country} ({row.cases})
-                      </MobTableCell>
-                      <MobTableCell color={lightBlue[500]}>
-                        {row.active}
-                      </MobTableCell>
-                      <MobTableCell color={pink[500]}>
-                        {row.deaths}
-                      </MobTableCell>
-                      <MobTableCell color={amber[500]}>
-                        {row.critical}
-                      </MobTableCell>
-                      <MobTableCell color={green[500]}>
-                        {row.recovered}
-                      </MobTableCell>
-                      <MobTableCell color={lightBlue[500]}>
-                        +{row.todayCases}
-                      </MobTableCell>
-                      <MobTableCell color={pink[500]}>
-                        +{row.todayDeaths}
-                      </MobTableCell>
-                    </TableRow>
-                  ))}
+                  {tableData
+                    .slice(
+                      itemsPerPage * currentPage,
+                      itemsPerPage * currentPage + itemsPerPage
+                    )
+                    .map((row, index) => (
+                      <TableRow
+                        classes={{ root: classes.row }}
+                        key={row.country}
+                      >
+                        <MobTableCell head>
+                          #{itemsPerPage * currentPage + index + 1}
+                          <ReactCountryFlag
+                            svg
+                            countryCode={row.countryInfo.iso2 || ""}
+                            className={classes.flag}
+                          />
+                          {row.country} ({row.cases})
+                        </MobTableCell>
+                        <MobTableCell color={lightBlue[500]}>
+                          {row.cases - (row.deaths + row.recovered)}
+                        </MobTableCell>
+                        <MobTableCell color={pink[500]}>
+                          {row.deaths}
+                        </MobTableCell>
+                        <MobTableCell color={amber[500]}>
+                          {row.critical}
+                        </MobTableCell>
+                        <MobTableCell color={green[500]}>
+                          {row.recovered}
+                        </MobTableCell>
+                        <MobTableCell color={lightBlue[500]}>
+                          +{row.todayCases}
+                        </MobTableCell>
+                        <MobTableCell color={pink[500]}>
+                          +{row.todayDeaths}
+                        </MobTableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -272,7 +295,7 @@ class TableData extends Component {
               onChangePage={this.handleChangePage}
               rowsPerPage={itemsPerPage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              classes={{toolbar:classes.toolbar}}
+              classes={{ toolbar: classes.toolbar }}
             />
           </Box>
         </Hidden>
