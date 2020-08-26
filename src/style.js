@@ -12,8 +12,8 @@ const myStyle = (theme) => ({
   },
 
   title: {
-     fontStyle: "italic",
-     fontWeight: "bold",
+    fontStyle: "italic",
+    fontWeight: "bold",
   },
 
   number: {
@@ -29,17 +29,17 @@ const myStyle = (theme) => ({
     animation: "$logoSpin infinite 20s linear",
     marginTop: "20px",
     width: "128px",
-    height:'128px'
+    height: "128px",
   },
-  [theme.breakpoints.down('sm')]:{
-    container:{
-      padding:theme.spacing(2)
+  [theme.breakpoints.down("sm")]: {
+    container: {
+      padding: theme.spacing(2),
     },
-    logo:{
-      width:'64px',
-      height:'64px',
-    }
-  }
+    logo: {
+      width: "64px",
+      height: "64px",
+    },
+  },
 });
 
 export default myStyle;

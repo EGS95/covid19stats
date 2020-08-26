@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@material-ui/core";
 import { PublicRounded } from "@material-ui/icons";
-import { green, amber } from "@material-ui/core/colors";
 import CountUp from "react-countup";
 import myStyle from "./Style";
 
@@ -17,9 +16,20 @@ export default function WorldStats(props) {
     let minutes =
       date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
     let amOrpm = date.getHours() > 11 ? "PM" : "AM";
-    let lastUpdate = `${day}/${month}/${year} at ${hours}:${minutes} ${amOrpm}`;
-    return `Last updated: ${lastUpdate}`;
+    return `Last updated: ${day}/${month}/${year} at ${hours}:${minutes} ${amOrpm}`;
   }
+  const Tile = (props) => {
+    return (
+      <Box bgcolor={props.bgcolor} className={classes.tile}>
+        <Typography className={classes.typo} variant="h4" paragraph>
+          {props.val}
+        </Typography>
+        <Typography className={classes.typo} variant="h4">
+          <CountUp end={worldData[props.val.toLowerCase()]} />
+        </Typography>
+      </Box>
+    );
+  };
   return (
     <Box className={classes.container}>
       <Typography variant="caption">
@@ -31,38 +41,10 @@ export default function WorldStats(props) {
       </Box>
 
       <Box className={classes.tileWrapper}>
-        <Box bgcolor="primary.main" className={classes.tile}>
-          <Typography className={classes.typo} variant="h4" paragraph>
-            Confirmed
-          </Typography>
-          <Typography className={classes.typo} variant="h4">
-            <CountUp end={worldData.cases} />
-          </Typography>
-        </Box>
-        <Box bgcolor="secondary.main" className={classes.tile}>
-          <Typography className={classes.typo} variant="h4" paragraph>
-            Deaths
-          </Typography>
-          <Typography className={classes.typo} variant="h4">
-            <CountUp end={worldData.deaths} />
-          </Typography>
-        </Box>
-        <Box bgcolor={amber["A700"]} className={classes.tile}>
-          <Typography className={classes.typo} variant="h4" paragraph>
-            Critical
-          </Typography>
-          <Typography className={classes.typo} variant="h4">
-            <CountUp end={worldData.critical} />
-          </Typography>
-        </Box>
-        <Box bgcolor={green["A700"]} className={classes.tile}>
-          <Typography className={classes.typo} variant="h4" paragraph>
-            Recovered
-          </Typography>
-          <Typography className={classes.typo} variant="h4">
-            <CountUp end={worldData.recovered} />
-          </Typography>
-        </Box>
+        <Tile bgcolor="primary.main" val="Cases" />
+        <Tile bgcolor="secondary.main" val="Deaths" />
+        <Tile bgcolor="#ff8f00" val="Critical" />
+        <Tile bgcolor="#00c853" val="Recovered" />
       </Box>
     </Box>
   );
