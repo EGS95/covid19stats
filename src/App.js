@@ -89,12 +89,12 @@ class App extends Component {
               </Typography>
               <img src={logo} className={classes.logo} alt="" />
               <WorldStats worldData={worldData} />
-              <CountryStats
+              {/* <CountryStats
                 countries={countries}
                 country={country}
                 plotData={plotData}
-              />
-              {/* <TableData tableData={tableData} /> */}
+              /> */}
+              <TableData tableData={tableData} />
             </>
           ) : (
             <CircularProgress size={75} />
