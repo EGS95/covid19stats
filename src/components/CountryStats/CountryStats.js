@@ -100,13 +100,13 @@ class CountryStats extends Component {
             <p style={{ fontWeight: "bolder" }}>{`Date: ${label}`}</p>
             <p
               style={{ color: payload[0].color }}
-            >{`Cases: ${payload[0].value}`}</p>
+            >{`Cases: ${payload[0].value} (+${payload[0].payload.deltaCases})`}</p>
             <p
               style={{ color: payload[1].color }}
-            >{`Deaths : ${payload[1].value}`}</p>
+            >{`Deaths : ${payload[1].value} (+${payload[1].payload.deltaDeaths})`}</p>
             <p
               style={{ color: payload[2].color }}
-            >{`Recovered : ${payload[2].value}`}</p>
+            >{`Recovered : ${payload[2].value} (+${payload[2].payload.deltaRecovered})`}</p>
           </Box>
         );
       }
