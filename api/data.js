@@ -9,12 +9,26 @@ const getHistoricalData = (data) => {
   let recovered = Object.values(data.timeline.recovered);
 
   return keys.map((key, index) => {
-    return {
-      date: key,
-      cases: cases[index],
-      deaths: deaths[index],
-      recovered: recovered[index],
-    };
+    if (index !== 0)
+      return {
+        date: key,
+        cases: cases[index],
+        deaths: deaths[index],
+        recovered: recovered[index],
+        deltaCases: cases[index] - cases[index - 1],
+        deltaDeaths: deaths[index] - deaths[index - 1],
+        deltaRecovered: recovered[index] - recovered[index - 1],
+      };
+    else
+      return {
+        date: key,
+        cases: cases[index],
+        deaths: deaths[index],
+        recovered: recovered[index],
+        deltaCases: 0,
+        deltaDeaths: 0,
+        deltaRecovered: 0,
+      };
   });
 };
 
