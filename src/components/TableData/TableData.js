@@ -216,6 +216,7 @@ class TableData extends Component {
             onChangePage={this.handleChangePage}
             rowsPerPage={itemsPerPage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            classes={{ toolbar: classes.toolbar }}
           />
         </Box>
       </>
