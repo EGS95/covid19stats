@@ -7,7 +7,6 @@ import {
   TableHead,
   TableCell,
   TablePagination,
-  Hidden,
   Box,
   Paper,
   MenuItem,
@@ -19,7 +18,6 @@ import {
 } from "@material-ui/core";
 import { TableChart, Search } from "@material-ui/icons";
 import ReactCountryFlag from "react-country-flag";
-import { lightBlue, green, pink, amber } from "@material-ui/core/colors";
 import myStyle from "./Style";
 
 class TableData extends Component {
@@ -82,42 +80,12 @@ class TableData extends Component {
   render() {
     const { classes } = this.props;
     const { tableData, sort, currentPage, itemsPerPage } = this.state;
-    const MobTableCell = (props) => {
-      const { color, head, children } = props;
-      if (head)
-        return (
-          <TableCell
-            variant="head"
-            style={{ width: "100%" }}
-            align="center"
-            className={classes.cell}
-            component="th"
-            scope="row"
-          >
-            {children}
-          </TableCell>
-        );
-      else
-        return (
-          <TableCell
-            style={{ color: color }}
-            flex={1}
-            align="center"
-            className={classes.cell}
-          >
-            {children}
-          </TableCell>
-        );
-    };
+
     return (
       <>
         <Box className={classes.container}>
           <Box display="flex" alignItems="center" mb={3} ref={this.tableTop}>
-            <TableChart
-              fontSize="large"
-              className={classes.worldIcon}
-              color="primary"
-            />
+            <TableChart className={classes.tableIcon} />
             <Typography variant="h4">Detailed stats</Typography>
           </Box>
           <Box className={classes.tableCtrl}>
@@ -129,8 +97,8 @@ class TableData extends Component {
             >
               <MenuItem value="country-A">Sort by country A-Z</MenuItem>
               <MenuItem value="country-D">Sort by country Z-A</MenuItem>
-              <MenuItem value="cases-D">Sort by confirmed desc</MenuItem>
-              <MenuItem value="cases-A">Sort by confirmed asc</MenuItem>
+              <MenuItem value="cases-D">Sort by cases desc</MenuItem>
+              <MenuItem value="cases-A">Sort by cases asc</MenuItem>
               <MenuItem value="deaths-D">Sort by deaths desc</MenuItem>
               <MenuItem value="deaths-A">Sort by deaths asc</MenuItem>
               <MenuItem value="recovered-D">Sort by recovered desc</MenuItem>
@@ -151,154 +119,105 @@ class TableData extends Component {
           </Box>
         </Box>
 
-        <Hidden xsDown>
-          <Box width="100%" mt={3} minHeight="100vh">
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow className={classes.mainRow}>
-                    <TableCell>Country</TableCell>
-                    <TableCell align="left">Confirmed</TableCell>
-                    <TableCell align="left">Active</TableCell>
-                    <TableCell align="left">Deaths</TableCell>
-                    <TableCell align="left">Critical</TableCell>
-                    <TableCell align="left">Recovered</TableCell>
-                    <TableCell align="left">Today cases</TableCell>
-                    <TableCell align="left">Today deaths</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {tableData
-                    .slice(
-                      itemsPerPage * currentPage,
-                      itemsPerPage * currentPage + itemsPerPage
-                    )
-                    .map((row, index) => (
-                      <TableRow
-                        classes={{ root: classes.row }}
-                        key={row.country}
+        <Box width="100%" mt={3} minHeight="100vh">
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow className={classes.mainRow}>
+                  <TableCell className={classes.cell}>Country</TableCell>
+                  <TableCell
+                    className={classes.cell}
+                    style={{ color: "white" }}
+                  >
+                    Cases
+                  </TableCell>
+                  <TableCell
+                    className={classes.cell}
+                    style={{ color: "#e91e63" }}
+                  >
+                    Deaths
+                  </TableCell>
+                  <TableCell
+                    className={classes.cell}
+                    style={{ color: "#4caf50" }}
+                  >
+                    Recovered
+                  </TableCell>
+                  <TableCell
+                    className={classes.cell}
+                    style={{ color: "#03a9f4" }}
+                  >
+                    Active
+                  </TableCell>
+                  <TableCell
+                    className={classes.cell}
+                    style={{ color: "#ffc107" }}
+                  >
+                    Critical
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tableData
+                  .slice(
+                    itemsPerPage * currentPage,
+                    itemsPerPage * currentPage + itemsPerPage
+                  )
+                  .map((row, index) => (
+                    <TableRow className={classes.row} key={row.country}>
+                      <TableCell className={classes.cell}>
+                        #{itemsPerPage * currentPage + index + 1}
+                        <ReactCountryFlag
+                          svg
+                          countryCode={row.countryInfo.iso2 || ""}
+                          className={classes.flag}
+                        />
+                        {row.country}
+                      </TableCell>
+                      <TableCell
+                        className={classes.cell}
+                        style={{ color: "white" }}
                       >
-                        <TableCell component="th" scope="row">
-                          #{itemsPerPage * currentPage + index + 1}
-                          <ReactCountryFlag
-                            svg
-                            countryCode={row.countryInfo.iso2 || ""}
-                            className={classes.flag}
-                          />
-                          {row.country}
-                        </TableCell>
-                        <TableCell align="left">{row.cases}</TableCell>
-                        <TableCell
-                          style={{ color: lightBlue[500] }}
-                          align="left"
-                        >
-                          {row.cases - (row.deaths + row.recovered)}
-                        </TableCell>
-                        <TableCell style={{ color: pink[500] }} align="left">
-                          {row.deaths}
-                        </TableCell>
-                        <TableCell style={{ color: amber[500] }} align="left">
-                          {row.critical}
-                        </TableCell>
-                        <TableCell style={{ color: green[500] }} align="left">
-                          {row.recovered}
-                        </TableCell>
-                        <TableCell
-                          align="left"
-                          style={{ color: lightBlue[500] }}
-                        >
-                          +{row.todayCases}
-                        </TableCell>
-                        <TableCell align="left" style={{ color: pink[500] }}>
-                          +{row.todayDeaths}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              component="div"
-              count={tableData.length}
-              page={currentPage}
-              onChangePage={this.handleChangePage}
-              rowsPerPage={itemsPerPage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-            />
-          </Box>
-        </Hidden>
-
-        <Hidden smUp>
-          <Box width="100%" mt={3} minHeight="100vh">
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow className={classes.mainRow}>
-                    <MobTableCell head>Country (Confirmed)</MobTableCell>
-                    <MobTableCell color={lightBlue[500]}>Active</MobTableCell>
-                    <MobTableCell color={pink[500]}>Deaths</MobTableCell>
-                    <MobTableCell color={amber[500]}>Critical</MobTableCell>
-                    <MobTableCell color={green[500]}>Recovered</MobTableCell>
-                    <MobTableCell color={lightBlue[500]}>
-                      Today cases
-                    </MobTableCell>
-                    <MobTableCell color={pink[500]}>Today deaths</MobTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {tableData
-                    .slice(
-                      itemsPerPage * currentPage,
-                      itemsPerPage * currentPage + itemsPerPage
-                    )
-                    .map((row, index) => (
-                      <TableRow
-                        classes={{ root: classes.row }}
-                        key={row.country}
+                        {row.cases} <br /> (+{row.todayCases})
+                      </TableCell>
+                      <TableCell
+                        className={classes.cell}
+                        style={{ color: "#e91e63" }}
                       >
-                        <MobTableCell head>
-                          #{itemsPerPage * currentPage + index + 1}
-                          <ReactCountryFlag
-                            svg
-                            countryCode={row.countryInfo.iso2 || ""}
-                            className={classes.flag}
-                          />
-                          {row.country} ({row.cases})
-                        </MobTableCell>
-                        <MobTableCell color={lightBlue[500]}>
-                          {row.cases - (row.deaths + row.recovered)}
-                        </MobTableCell>
-                        <MobTableCell color={pink[500]}>
-                          {row.deaths}
-                        </MobTableCell>
-                        <MobTableCell color={amber[500]}>
-                          {row.critical}
-                        </MobTableCell>
-                        <MobTableCell color={green[500]}>
-                          {row.recovered}
-                        </MobTableCell>
-                        <MobTableCell color={lightBlue[500]}>
-                          +{row.todayCases}
-                        </MobTableCell>
-                        <MobTableCell color={pink[500]}>
-                          +{row.todayDeaths}
-                        </MobTableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              component="div"
-              count={tableData.length}
-              page={currentPage}
-              onChangePage={this.handleChangePage}
-              rowsPerPage={itemsPerPage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              classes={{ toolbar: classes.toolbar }}
-            />
-          </Box>
-        </Hidden>
+                        {row.deaths} <br /> (+{row.todayDeaths})
+                      </TableCell>
+                      <TableCell
+                        className={classes.cell}
+                        style={{ color: "#4caf50" }}
+                      >
+                        {row.recovered} <br /> (+{row.todayRecovered})
+                      </TableCell>
+                      <TableCell
+                        className={classes.cell}
+                        style={{ color: "#03a9f4" }}
+                      >
+                        {row.cases - (row.deaths + row.recovered)}
+                      </TableCell>
+                      <TableCell
+                        className={classes.cell}
+                        style={{ color: "#ffc107" }}
+                      >
+                        {row.critical}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            component="div"
+            count={tableData.length}
+            page={currentPage}
+            onChangePage={this.handleChangePage}
+            rowsPerPage={itemsPerPage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
+        </Box>
       </>
     );
   }
