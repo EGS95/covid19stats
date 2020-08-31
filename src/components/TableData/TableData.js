@@ -42,7 +42,7 @@ class TableData extends Component {
   }
 
   handleChangeRowsPerPage(e) {
-    this.setState({ itemsPerPage: e.target.value });
+    this.setState({ itemsPerPage: e.target.value, currentPage:0 });
   }
 
   handleSearch(e) {
