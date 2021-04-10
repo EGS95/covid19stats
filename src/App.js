@@ -42,7 +42,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("https://covid19globalstats.now.sh/api/data")
+    fetch("https://covid19globalstats.vercel.app/api/data")
       .then((res) => {
         return res.json();
       })

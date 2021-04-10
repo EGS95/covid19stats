@@ -78,7 +78,7 @@ class CountryStats extends Component {
     )[0];
 
     fetch(
-      `https://covid19globalstats.now.sh/api/data?ccode=${country.countryInfo.iso2}`
+      `https://covid19globalstats.vercel.app/api/data?ccode=${country.countryInfo.iso2}`
     )
       .then((res) => res.json())
       .then((data) => {
