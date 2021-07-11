@@ -101,5 +101,5 @@ module.exports = async (req, res) => {
           historicalData: getHistoricalData(data),
         });
       })
-      .catch((err) => res.json({ Error: err.message }));
+      .catch((err) => res.status(404).error({ message: err.message }));
 };
