@@ -23,15 +23,8 @@ const colors = ["#039be5", "#f50057", "#00c853"];
 const radian = Math.PI / 180;
 
 const renderCustomizedLabel = (props) => {
-  const {
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    payload,
-    percent,
-  } = props;
+  const { cx, cy, midAngle, innerRadius, outerRadius, payload, percent } =
+    props;
   let pos;
   switch (payload.name) {
     case "Deaths":
@@ -77,11 +70,17 @@ class CountryStats extends Component {
       (country) => country.country === e.target.value
     )[0];
 
-    fetch(
-      `https://covid19globalstats.vercel.app/api/data?ccode=${country.countryInfo.iso2}`
-    )
+    let ccode;
+    if (country.countryInfo.iso2) {
+      ccode = country.countryInfo.iso2;
+    } else {
+      ccode = country.country.toLowerCase().replace(" ", "%20");
+    }
+
+    fetch(`https://covid19globalstats.vercel.app/api/data?ccode=${ccode}`)
       .then((res) => res.json())
       .then((data) => {
+        if (data.Error) return this.setState({ plotData: null, country });
         this.setState({
           plotData: data.historicalData,
           country,
@@ -222,43 +221,45 @@ class CountryStats extends Component {
             </ResponsiveContainer>
           </Box>
         </Box>
-        <Box width={"100%"} height={400}>
-          <ResponsiveContainer>
-            <LineChart
-              data={plotData}
-              margin={{
-                top: 20,
-                right: 30,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend />
-              <Line
-                dataKey="cases"
-                stroke="#039be5"
-                dot={false}
-                strokeWidth={3}
-              />
-              <Line
-                dataKey="deaths"
-                stroke="#f50057"
-                dot={false}
-                strokeWidth={3}
-              />
-              <Line
-                dataKey="recovered"
-                stroke="#00c853"
-                dot={false}
-                strokeWidth={3}
-              />
+        {plotData && (
+          <Box width={"100%"} height={400}>
+            <ResponsiveContainer>
+              <LineChart
+                data={plotData}
+                margin={{
+                  top: 20,
+                  right: 30,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Line
+                  dataKey="cases"
+                  stroke="#039be5"
+                  dot={false}
+                  strokeWidth={3}
+                />
+                <Line
+                  dataKey="deaths"
+                  stroke="#f50057"
+                  dot={false}
+                  strokeWidth={3}
+                />
+                <Line
+                  dataKey="recovered"
+                  stroke="#00c853"
+                  dot={false}
+                  strokeWidth={3}
+                />
 
-              <Brush height={25} travellerWidth={20} />
-            </LineChart>
-          </ResponsiveContainer>
-        </Box>
+                <Brush height={25} travellerWidth={20} />
+              </LineChart>
+            </ResponsiveContainer>
+          </Box>
+        )}
       </Box>
     );
   }
